@@ -1,0 +1,35 @@
+Write in C: You and your friend are playing a card game with an ordered deck of N cards, numbered from 1 to N. The cards are arranged such that card N is at the top and card 1 is at the bottom of the deck. You both take turns performing specific operations on the deck until only one card remains. The operations are as follows:
+
+Your turn: You throw away the card on top of the deck.
+Friend's turn: Your friend moves the next card on the top of the deck to the bottom of the deck.
+
+These steps are repeated alternately until only one card is left in the deck.
+Your task is to determine the number on the final card remaining in the deck after completing all operations.
+
+Input format :
+First line: A number T denoting the number of test cases.
+Each of the next T lines: A number N denoting the number of cards.
+
+Output format :
+For each test case, the output prints the number on the final card that is left in the deck.
+
+Code constraints :
+1<=T<=10^6
+1<=N<=10^10
+
+Refer to the sample input and output for formatting specifications.
+
+Sample input: 
+5
+2 
+3
+4
+5
+8
+
+Sample output:
+2
+2
+4
+2
+8
