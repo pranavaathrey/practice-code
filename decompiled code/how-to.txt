@@ -1,0 +1,4 @@
+just add the following flags when compiling with gcc:
+gcc codeFile.c -save-temps -S
+
+it saves the intermediate files created during the compilation process, rather than deleting them.

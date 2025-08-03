@@ -17,7 +17,7 @@ int main() {
 
         while(j >= 0 && list[j] > key) {
             list[j + 1] = list[j];
-            j--;
+            j--; // compare the next element (left)
         }
         list[j + 1] = key;
     }

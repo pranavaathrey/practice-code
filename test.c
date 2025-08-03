@@ -7,10 +7,9 @@ int swap(int *a, int *b) {
 }
 
 int partition(int list[], int left, int right) {
-    // find pivot (middle element) and move it to the right
-    swap(&list[left + (right - left) / 2], &list[right]);
+    swap(&list[left + (right - left)/2], &list[right]);
     int pivot = list[right];
-    
+
     int i = left - 1;
     for(int j = left; j < right; j++) {
         if(list[j] < pivot) {
@@ -32,12 +31,9 @@ void quickSort(int list[], int left, int right) {
 }
 
 int main() {
-    int n;
-    printf("Enter the number of entries: ");
-    scanf("%d", &n);
+    int n; scanf("%d", &n);
 
     int arr[n];
-    printf("Enter the numbers: ");
     for(int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
     
