@@ -3,7 +3,7 @@
 
 #define MAX_LENGTH 100
 
-// ----------------------Comparator Functions----------------------- //
+// >>----------------------|Comparator Functions|-----------------------<< //
 
 typedef struct {
     char name[MAX_LENGTH];
@@ -30,7 +30,7 @@ int compareByMajor(StudentRecord a, StudentRecord b) {
     return strcmp(a.major, b.major);
 }
 
-// --------------------Quick Sort Implementation-------------------- //
+// >>--------------------|Quick Sort Implementation|--------------------<< //
 
 void swap(StudentRecord *a, StudentRecord *b) {
     StudentRecord temp = *a;
@@ -64,7 +64,7 @@ void quickSort(StudentRecord list[], int left, int right,
     }
 }
 
-// --------------------------Main Function-------------------------- //
+// >>--------------------------|Main Function|--------------------------<< //
 
 int main() {
     printf("\nEnter the number of student records: ");

@@ -46,7 +46,7 @@ int main() {
 
     while(numberOfResults > 0) {
         if(left > 0 && (right >= entries - 1
-        || (abs(key - list[left - 1]) <= abs(key - list[right + 1])) ))
+        || (abs(key - list[left - 1]) <= abs(key - list[right + 1]))))
             printf("%d ", list[--left]);
         else if(right < entries - 1) 
             printf("%d ", list[++right]);
