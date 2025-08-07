@@ -11,6 +11,7 @@ int partition(int list[], int left, int right) {
     swap(&list[left + (right - left) / 2], &list[right]);
     int pivot = list[right];
     
+    // setting the boundary of elements lower than pivot 
     int i = left - 1;
     for(int j = left; j < right; j++) {
         if(list[j] < pivot) {
@@ -37,7 +38,7 @@ int main() {
     scanf("%d", &n);
 
     int arr[n];
-    printf("Enter the numbers: ");
+    printf("Enter the list's elements: ");
     for(int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
     

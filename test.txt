@@ -1,0 +1,105 @@
+linearSearch(list, key)
+    index
+    for(index = 0; index < n - 1; index++)
+        if(list[index] == key)
+            break
+    return index
+    
+
+binarySearch(list, key, low, high)
+    if(high > low)
+        mid = low + (high - low) / 2
+
+        if(list[mid] == key)
+            return mid
+        if(list[mid] > key)
+            return binarySearch(list, key, low, mid)
+        else
+            return binarySearch(list, key, mid + 1, high)
+    return -1
+
+
+swap(int *a, int *b)
+    temp = *a
+    *a = *b
+    *b = temp
+
+
+bubbleSort(list)
+    flag
+    do {
+        flag = 0
+        for(int index = 1; index < n; index++) 
+            if(list[index - 1] > list[list])
+                swap(the two)
+                flag = 1
+    } while(flag != 0)
+
+
+insertionSort(list)
+    for(int index = 1; index < n; index++)
+        key = list[index]
+        j = index - 1
+
+        while(j >= 0 && list[j] > key)
+            list[j + 1] = list[j]
+            j--
+        list[j + 1] = key
+
+
+selectionSort(list)
+    for(int index = 0; index < n; index++)
+        min = index
+
+        for(int j = index; j < n; j++)
+            if(list[j] < list[min])
+                min = j
+        swap(list[min], list[index])
+
+
+countingSort(list)
+    max = list[0]
+    for(index from 0 to n - 1)
+        if(list[index] > max)
+            max = list[index]
+    
+    count[max + 1]
+    for(index from 0 to max)
+        count[index] = 0
+    
+    for(index from 0 to n - 1)
+        count[list[index]]++
+    
+    for(index from 1 to max)
+        count[index] += count[index - 1]
+    
+    output[n]
+    for(index from n - 1 to 0)
+        output[count[list[index]] - 1] = list[index]
+        count[list[index]]--
+    
+    return output
+    
+
+partition(list[], low, high)
+    swap(list[low + (high - low) / 2], list[high])
+    pivot = list[high]
+
+    index = low - 1
+    for(int j = low; j < high; j++)
+        if(list[j] <= pivot)
+            index++
+            swap(list[index], list[j])
+    swap(list[index + 1], list[high])
+    return index + 1
+
+quickSort(list, low, high)
+    if(high > low)
+        pi = partition(list, low, high)
+
+        quickSort(list, low, pi - 1)
+        quickSort(list, pi + 1, high)
+
+merge()
+
+mergeSort(list)

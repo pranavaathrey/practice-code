@@ -3,13 +3,13 @@
 #include <vector>
 using namespace std;
 
-class BankManager;  // Forward declaration
+class BankManager; 
 
 class BankAccount {
 private:
     string name;
     double balance;
-    static int accountCount;  // static member to track total accounts
+    static int accountCount;
 
     static constexpr double MIN_BALANCE = 1000.0;
     static constexpr double MAX_WITHDRAWAL = 5000.0;
@@ -59,14 +59,11 @@ public:
         cout << "Withdrew Rs. " << amount << " from account of " << name << ".\n";
     }
 
-    // Friend class declaration
     friend class BankManager;
 };
 
-// Definition of static member
 int BankAccount::accountCount = 0;
 
-// BankManager class
 class BankManager {
 public:
     static void displayTotalAccounts() {
@@ -83,31 +80,24 @@ public:
     }
 };
 
-// Main function
 int main() {
     vector<BankAccount> accounts;
 
-    // Creating some accounts
-    accounts.emplace_back("Alice", 5000);   // Valid
-    accounts.emplace_back("Bob", 950);      // Invalid, won't be counted
-    accounts.emplace_back("Charlie", 1200); // Valid
+    accounts.emplace_back("Alice", 5000);   
+    accounts.emplace_back("Bob", 950);    
+    accounts.emplace_back("Charlie", 1200); 
 
     cout << "\n--- Performing Transactions ---\n";
 
-    // Valid deposit
-    accounts[0].deposit(1000);   // Rs. 1000 deposited into Alice's account
+    accounts[0].deposit(1000); 
 
-    // Invalid deposit
-    accounts[0].deposit(300);    // Below minimum
+    accounts[0].deposit(300);   
 
-    // Valid withdrawal
-    accounts[0].withdraw(4000);  // Within limit and leaves more than Rs. 1000
+    accounts[0].withdraw(4000); 
 
-    // Invalid withdrawal (over Rs. 5000)
-    accounts[1].withdraw(6000);  // Will not proceed
+    accounts[1].withdraw(6000);  
 
-    // Invalid withdrawal (brings balance below Rs. 1000)
-    accounts[2].withdraw(300);   // Only if balance would fall under min
+    accounts[2].withdraw(300);   
 
     cout << "\n--- Account Details ---\n";
     for (const auto& acc : accounts) {

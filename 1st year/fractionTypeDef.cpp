@@ -35,19 +35,16 @@ int main() {
     cout << "Enter the total bill amount: ";
     cin >> totalBill;
 
-    // Create Fraction objects
-    Fraction totalAmount(totalBill);    // numerator
-    Fraction numPeople(14);             // denominator (excluding birthday person)
+    Fraction totalAmount(totalBill);
+    Fraction numPeople(14);
 
-    // Display fraction
     cout << "Each person pays (fraction): ";
     totalAmount.displayFraction();
     cout << " / ";
-    numPeople.displayFraction();  // Displays like X/Y / A/B for transparency
+    numPeople.displayFraction();
 
-    // Display floating point result
     double result = totalAmount / numPeople;
-    cout << fixed << setprecision(2);  // 2 decimal places
+    cout << fixed << setprecision(2); 
     cout << "\nEach person pays (float): " << result << endl;
 
     return 0;

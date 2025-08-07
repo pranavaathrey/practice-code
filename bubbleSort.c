@@ -4,7 +4,7 @@
 #define MAX_SIZE 99
 
 int main() {
-    int n;
+    int n, flag;
     printf("Enter the number of entries: ");
     scanf("%d", &n); getchar();
     
@@ -14,9 +14,8 @@ int main() {
         scanf("%s", strings + i);
     
     // bubble sort
-    while(1) {
-        int flag = 0;
-        for(int i = 0; i < n - 1; i++) {
+    do{ flag = 0;
+        for(int i = 0; i < n - 1; i++) 
             if(strcmpi(strings[i + 1], strings[i]) < 0) {
                 char temp[MAX_SIZE];
                 strcpy(temp, strings[i]);
@@ -24,9 +23,7 @@ int main() {
                 strcpy(strings[i + 1], temp);
                 flag = 1;
             }
-        }
-        if(flag == 0) break;
-    }
+    } while(flag != 0);
 
     printf("Sorted Alphabetically: ");
     for(int i = 0; i < n; i++)

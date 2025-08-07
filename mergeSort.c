@@ -43,7 +43,7 @@ int main() {
     scanf("%d", &n);
 
     int list[n];
-    printf("Enter the entries: ");
+    printf("Enter the the list's elements: ");
     for(int i = 0; i < n; i++)
         scanf("%d", &list[i]);
     

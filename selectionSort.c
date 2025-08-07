@@ -7,7 +7,7 @@ int main() {
     scanf("%d", &n); getchar();
     
     int list[n];
-    printf("Enter the entries: ");
+    printf("Enter the list's elements: ");
     for(int i = 0; i < n; i++)
         scanf("%d", list + i);
     
