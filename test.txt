@@ -100,6 +100,34 @@ quickSort(list, low, high)
         quickSort(list, low, pi - 1)
         quickSort(list, pi + 1, high)
 
-merge()
 
-mergeSort(list)
+merge(list, low, mid, high)
+    n1 = mid + 1 - low
+    n2 = high - mid
+
+    L[n1], R[n2]
+    for(int ix = 0; ix < n1; ix++)
+        L[ix] = list[low + ix]
+    for(int j = 0; j < n2; j++)
+        R[j] = list[mid + 1 + j]
+    
+    ix = 0, j = 0, k = low
+    while(ix < n1 && j < n2) 
+        if(L[ix] <= R[j])
+            list[k++] = L[ix++]
+        else   
+            list[k++] = R[j++]
+    
+    while(ix < n1)
+        list[k++] = L[ix++]
+    while(j < n2)
+        list[k++] = R[j++]
+
+mergeSort(list, low, high)
+    if(low < high)
+        mid = low + (high - low) / 2
+        
+        mergeSort(list, low, mid)
+        mergeSort(list, mid + 1, high)
+
+        merge(list, low, mid, high)

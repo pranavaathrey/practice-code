@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-void merge(int *list, int low, int mid, int high) {
-    int n1 = mid - low + 1;
+void merge(int list[], int low, int mid, int high) {
+    int n1 = mid + 1 - low;
     int n2 = high - mid;
 
     int L[n1], R[n2];
@@ -26,7 +26,7 @@ void merge(int *list, int low, int mid, int high) {
         list[k++] = R[j++];
 }
 
-void mergeSort(int *list, int low, int high) {
+void mergeSort(int list[], int low, int high) {
     if(low < high) {
         int mid = low + (high - low) / 2;
 
