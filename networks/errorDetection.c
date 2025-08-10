@@ -44,17 +44,21 @@ void vrc(char *mode, char *parityType, char *data) {
 // Longitudinal Redundancy Check (LRC)
 void lrc(char *mode, char *parityType, char data[][MAX_BITS], int rows, int bitsPerRow) {
     printf("\nUsed Parity Generator: %s\n", 
-        (parityType[0] == 'e') ? "even" : "odd");
+        (parityType[0] == 'e' || parityType[0] == 'E') ? "even" : "odd");
 
-    char lrcBits[MAX_BITS] = {0};
-
+    char lrcBits[MAX_BITS];
+    
     for (int i = 0; i < bitsPerRow; i++) {
         int count = 0;
         for (int j = 0; j < rows; j++) {
             if (data[j][i] == '1') count++;
         }
-        lrcBits[i] = ((parityType[0] == 'e') ^ (count % 2 != 0)) ? '0' : '1';
+        if (parityType[0] == 'e' || parityType[0] == 'E')
+            lrcBits[i] = (count % 2 == 0) ? '0' : '1';
+        else
+            lrcBits[i] = (count % 2 == 0) ? '1' : '0';
     }
+    lrcBits[bitsPerRow] = '\0';
 
     if (strcmp(mode, "send") == 0) {
         printf("Original Data:\n");
@@ -69,8 +73,8 @@ void lrc(char *mode, char *parityType, char data[][MAX_BITS], int rows, int bits
             for (int j = 0; j < rows; j++) {
                 if (data[j][i] == '1') count++;
             }
-            if (((parityType[0] == 'e') && (count % 2 != 0)) 
-             || ((parityType[0] == 'o') && (count % 2 == 0))) {
+            if (((parityType[0] == 'e' || parityType[0] == 'E') && (count % 2 != 0)) 
+             || ((parityType[0] == 'o' || parityType[0] == 'O') && (count % 2 == 0))) {
                 error = 1;
                 break;
             }
@@ -123,6 +127,12 @@ void crc(char *mode, char *data, char *divisor) {
     }
 }
 
+// print in 8-bit binary representation
+void printBinary8(unsigned int num) {
+    for (int i = 7; i >= 0; i--)
+        putchar((num & (1 << i)) ? '1' : '0');
+}
+
 void checksum(char *mode, char data[][MAX_BITS], int rows) {
     int sum = 0;
     for (int i = 0; i < rows; i++) 
@@ -130,16 +140,16 @@ void checksum(char *mode, char data[][MAX_BITS], int rows) {
 
     while (sum >> 8) // wrap around
         sum = (sum & 0xFF) + (sum >> 8);
-
     int checkSum = ~sum & 0xFF;
 
-    if (strcmp(mode, "send") == 0) 
-        printf("\nCalculated Checksum: %08b\n", checkSum);
-    else {
+    if (strcmp(mode, "send") == 0) {
+        printf("\nCalculated Checksum: ");
+        printBinary8(checkSum); printf("\n");
+    } else {
         sum += checkSum;
         while (sum >> 8) 
             sum = (sum & 0xFF) + (sum >> 8);
-        
+
         if ((sum & 0xFF) == 0xFF)
             printf("No Error Detected.\n");
         else
