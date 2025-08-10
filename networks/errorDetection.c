@@ -146,7 +146,6 @@ void checksum(char *mode, char data[][MAX_BITS], int rows) {
         printf("\nCalculated Checksum: ");
         printBinary8(checkSum); printf("\n");
     } else {
-        sum += checkSum;
         while (sum >> 8) 
             sum = (sum & 0xFF) + (sum >> 8);
 
