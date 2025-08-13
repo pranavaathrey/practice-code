@@ -36,9 +36,9 @@ void receiver() {
     // covert error position from binary to decimal
     error_pos = p4 * 4 + p2 * 2 + p1 * 1;
 
-    if (error_pos == 0) {
+    if (error_pos == 0) 
         printf("No error detected.\n");
-    } else {
+    else {
         printf("Error detected at bit position: %d\n", error_pos);
         // correct the error (bit positions are 1-indexed)
         r[error_pos - 1] ^= 1;
