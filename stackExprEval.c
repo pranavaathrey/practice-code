@@ -43,6 +43,7 @@ int main() {
     char postfix[MAX];
     printf("Enter postfix expression: \n(with only single digit positive integer operands)\n>> ");
     scanf("%s", &postfix);
+    // TODO: make this compatible with your infix converter
 
     printf("Evaluated expression: %d", evaluateExpression(postfix));
 }

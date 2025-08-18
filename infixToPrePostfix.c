@@ -103,4 +103,5 @@ int main() {
     printf("Postfix expression: %s\n", postfix);
     infixToPrefix();
     printf("Prefix expression: %s\n", postfix);
+    // TODO: fix spacing
 }
