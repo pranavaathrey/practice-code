@@ -1,5 +1,18 @@
 #include <stdio.h>
 
+void insertionSort(int list[], int n) {
+    for(int i = 1; i < n; i++) {
+        int key = list[i];
+        int j = i - 1;
+
+        while(j >= 0 && list[j] > key) {
+            list[j + 1] = list[j];
+            j--; // compare the next element (left)
+        }
+        list[j + 1] = key;
+    }
+}
+
 int main() {
     int n; 
     printf("Enter the number of entries: ");
@@ -11,16 +24,8 @@ int main() {
         scanf("%d", &list[i]);
     
     // insertion sort
-    for(int i = 1; i < n; i++) {
-        int key = list[i];
-        int j = i - 1;
+    insertionSort(list, n);
 
-        while(j >= 0 && list[j] > key) {
-            list[j + 1] = list[j];
-            j--; // compare the next element (left)
-        }
-        list[j + 1] = key;
-    }
     printf("The sorted list: ");
     for(int i = 0; i < n; i++)
         printf("%d ", list[i]);

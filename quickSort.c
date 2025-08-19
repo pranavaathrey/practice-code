@@ -6,29 +6,29 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
-int partition(int list[], int left, int right) {
+int partition(int list[], int low, int high) {
     // find pivot (middle element) and move it to the right
-    swap(&list[left + (right - left) / 2], &list[right]);
-    int pivot = list[right];
+    swap(&list[low + (high - low) / 2], &list[high]);
+    int pivot = list[high];
     
     // setting the boundary of elements lower than pivot 
-    int i = left - 1;
-    for(int j = left; j < right; j++) {
+    int i = low - 1;
+    for(int j = low; j < high; j++) {
         if(list[j] < pivot) {
             i++;
             swap(&list[i], &list[j]);
         }
     }
-    swap(&list[i + 1], &list[right]);
+    swap(&list[i + 1], &list[high]);
     return i + 1;
 }
 
-void quickSort(int list[], int left, int right) {
-    if(left < right) {
-        int pi = partition(list, left, right);
+void quickSort(int list[], int low, int high) {
+    if(low < high) {
+        int pi = partition(list, low, high);
 
-        quickSort(list, left, pi - 1);
-        quickSort(list, pi + 1, right);
+        quickSort(list, low, pi - 1);
+        quickSort(list, pi + 1, high);
     }
 }
 
