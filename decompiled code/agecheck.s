@@ -93,18 +93,18 @@ main:
 	call	__main
 	leaq	.LC0(%rip), %rcx
 	call	printf
-	leaq	-4(%rbp), %rax
+	leaq	-8(%rbp), %rax
 	movq	%rax, %rdx
 	leaq	.LC1(%rip), %rcx
 	call	scanf
-	movl	-4(%rbp), %eax
+	movl	-8(%rbp), %eax
 	testl	%eax, %eax
 	js	.L6
 	leaq	.LC2(%rip), %rcx
 	call	printf
 	jmp	.L7
 .L6:
-	movl	-4(%rbp), %eax
+	movl	-8(%rbp), %eax
 	cmpl	$17, %eax
 	jle	.L8
 	leaq	.LC3(%rip), %rcx
@@ -114,6 +114,17 @@ main:
 	leaq	.LC4(%rip), %rcx
 	call	printf
 .L7:
+	movl	-8(%rbp), %edx
+	movl	%edx, %eax
+	addl	%eax, %eax
+	addl	%edx, %eax
+	addl	$4, %eax
+	movl	%eax, %edx
+	shrl	$31, %edx
+	addl	%edx, %eax
+	sarl	%eax
+	subl	$1, %eax
+	movl	%eax, -4(%rbp)
 	movl	$0, %eax
 	addq	$48, %rsp
 	popq	%rbp

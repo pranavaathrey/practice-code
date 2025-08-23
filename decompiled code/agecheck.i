@@ -1043,4 +1043,5 @@ int main(){
  }else{
   printf("Age invalid.");
  }
+ int bruh = (age * 3 + 4) / 2 - 1;
 }
