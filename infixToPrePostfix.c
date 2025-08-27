@@ -45,15 +45,14 @@ void reverseString(char *str) {
 char infix[MAX], postfix[MAX];
 void infixToPostfix() {
     int length = strlen(infix);
-    int currNum = 0, postfixPointer = -1;
+    int postfixPointer = -1;
 
     for(int i = 0; i < length; i++) {
         if(isdigit(infix[i])) { // on a digit
-            currNum = 1;
             postfix[++postfixPointer] = infix[i];
-        } else if(infix[i] == ' ' && currNum == 1) {
-            postfix[++postfixPointer] = ' ';
-            currNum = 0;
+
+            if(!isdigit(infix[i + 1]) && (i + 1) < length) 
+                postfix[++postfixPointer] = ' ';
         } 
         else if(priority(infix[i]) > 0) { // on an operator
             while (priority(infix[i]) <= priority(stack[stackPointer])) {
@@ -103,5 +102,4 @@ int main() {
     printf("Postfix expression: %s\n", postfix);
     infixToPrefix();
     printf("Prefix expression: %s\n", postfix);
-    // TODO: fix spacing
 }

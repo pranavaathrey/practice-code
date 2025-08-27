@@ -9,8 +9,11 @@ typedef struct {
 towerRods rods;
 
 void displayDiscs(int n) {
+    int colours[] = {91, 93, 92, 96, 94, 95};
+
     for(int i = 0; i < n; i++) 
-        printf("|");
+        printf("\e[1;%dm|\e[0m", 
+            colours[i % (sizeof(colours) / sizeof(int))]);
 }
 
 void towerOfHanoi(int n, int src, int dest, int aux) {

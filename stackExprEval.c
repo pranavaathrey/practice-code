@@ -17,12 +17,20 @@ int pop() {
     return stack[stackPointer--];
 }
 
-// evaluate postfix expression (single digit positive integers only)
+// evaluate postfix expression 
 int evaluateExpression(char postfix[]) {
-    for(int i = 0; i < strlen(postfix); i++) {
-        if(isdigit(postfix[i])) 
-            push(postfix[i] - '0');
-        else {
+    int len = strlen(postfix);    
+    int currNum = 0;
+
+    for(int i = 0; i < len; i++) {
+        if(isdigit(postfix[i])) {
+            currNum = (currNum * 10) + (postfix[i] - '0');
+
+            if(i + 1 < len && !isdigit(postfix[i + 1])) {
+                push(currNum);
+                currNum = 0;
+            }
+        } else if(postfix[i] != ' ') {
             int rightOperand = pop();
             int leftOperand = pop();
 
@@ -41,9 +49,10 @@ int evaluateExpression(char postfix[]) {
 
 int main() {
     char postfix[MAX];
-    printf("Enter postfix expression: \n(with only single digit positive integer operands)\n>> ");
-    scanf("%s", &postfix);
-    // TODO: make this compatible with your infix converter
+    printf("Enter postfix expression: \n(In this format: 6 23 1 + * 2 /)\n>> ");
+
+    fgets(postfix, MAX, stdin);
+    postfix[strlen(postfix) - 1] = '\0';
 
     printf("Evaluated expression: %d", evaluateExpression(postfix));
 }
