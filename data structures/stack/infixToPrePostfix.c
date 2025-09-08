@@ -19,6 +19,9 @@ char pop() {
 
 int priority(char operator) {
     switch (operator) {
+        case '^': return 3;
+        break;
+
         case '/': 
         case '*': return 2;
         break;
