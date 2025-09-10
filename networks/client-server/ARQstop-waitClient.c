@@ -1,4 +1,5 @@
 // stop-and-Wait ARQ sender (Windows, UDP)
+// compile: gcc ARQstop-waitClient.c -o ARQstop-waitClient -lws2_32
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -51,7 +52,7 @@ int main(void) {
     si_other.sin_port = htons(SERVER_PORT);
     inet_pton(AF_INET, SERVER_IP, &si_other.sin_addr);
 
-    printf("Enter the message to send (end with EOF / Ctrl+Z on Windows):\n");
+    printf("Enter the message to be sent (end with Ctrl+Z & Enter):\n");
 
     // read all stdin into buffer (simple)
     char *buffer = NULL;

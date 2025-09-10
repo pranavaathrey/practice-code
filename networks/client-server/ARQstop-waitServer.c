@@ -1,4 +1,5 @@
 // stop-and-Wait ARQ receiver (Windows, UDP)
+// compile: gcc ARQstop-waitServer.c -o ARQstop-waitServer -lws2_32
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -135,7 +136,6 @@ int main(void) {
             printf("[RECV] Duplicate seq=%d (expected %d). Re-sent ACK for %d\n", seq, expected_seq, 1 - expected_seq);
         }
     }
-
     closesocket(sock);
     WSACleanup();
     return 0;

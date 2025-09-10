@@ -1,6 +1,5 @@
-// server.c
 // Go-Back-N receiver (UDP) for Windows
-// Compile: gcc server.c -o server.exe -lws2_32   (MinGW) or build with MSVC linking ws2_32.lib
+// Compile: gcc ARQgo-back-Nserver.c -o ARQgo-back-Nserver.exe -lws2_32   (MinGW)
 
 #include <winsock2.h>
 #include <windows.h>

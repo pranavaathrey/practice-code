@@ -1,5 +1,5 @@
 // Go-Back-N sender (UDP) for Windows
-// to compile: gcc client.c -o client.exe -lws2_32  (MinGW)
+// to compile: gcc ARQgo-back-Nclient.c -o ARQgo-back-Nclient.exe -lws2_32  (MinGW)
 
 #include <winsock2.h>
 #include <windows.h>
