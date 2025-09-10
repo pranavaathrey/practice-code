@@ -25,7 +25,7 @@ Mapping table[] = {
     //------------> OPCODES <------------//
 
     // memory management
-    {"copy", "00"},         // 0000 0000
+    {"copy", "40"},         // 0100 0000
     {"copy_i", "C0"},       // 1100 0000
     
     {"ram_load", "3F"},     // 0011 1111
@@ -121,25 +121,35 @@ int main() {
         perror("File error");
         return 1;
     }
-    char word[128];
-    while (fscanf(in, "%127s", word) == 1) {
-        const char *mapped = lookup(word);
-        char hex_code[16];
 
-        if (mapped) 
-            strcpy(hex_code, mapped);
-        else if (isDecimal(word)) 
-            decimalToHex(word, hex_code);
-        else {
-            // if unknown word
-            printf("Unknown instruction: %s\n", word);
-            strcpy(hex_code, "??");
+    char line[512];
+    while (fgets(line, sizeof(line), in)) {
+        if (strncmp(line, "//", 2) == 0 || strncmp(line, "#", 1) == 0)
+            continue;
+
+        char *token = strtok(line, " \t\r\n");
+        while (token) {
+            const char *mapped = lookup(token);
+            char hexCode[16];
+
+            if (mapped) 
+                strcpy(hexCode, mapped);
+            else if (isDecimal(token)) 
+                decimalToHex(token, hexCode);
+            else {
+                // if unknown word
+                printf("Unknown instruction: %s\n", token);
+                strcpy(hexCode, "??");
+            }
+
+            unsigned int byte;
+            if (sscanf(hexCode, "%x", &byte) == 1) {
+                unsigned char b = (unsigned char)byte;
+                fwrite(&b, 1, 1, out);
+            }
+
+            token = strtok(NULL, " \t\r\n");
         }
-        // convert hex string to actual byte and write
-        unsigned int byte;
-        sscanf(hex_code, "%x", &byte);
-        unsigned char b = (unsigned char)byte;
-        fwrite(&b, 1, 1, out);
     }
     fclose(in);
     fclose(out);

@@ -1,1 +1,7 @@
 copy_i 74 to reg_1
+copy reg_1 to reg_2
+
+# arithmetic test
+add_ri reg_2 9 reg_2
+sub_ii 92 23 reg_3
+
