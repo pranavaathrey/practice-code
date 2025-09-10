@@ -78,7 +78,7 @@ int main() {
         WSACleanup();
         return 1;
     }
-    printf("Client connected!\n");
+    printf("Client connected!\n\n");
 
     // create a thread for receiving messages
     HANDLE hThread = CreateThread(NULL, 0, recvThread, &new_socket, 0, NULL);
@@ -93,7 +93,6 @@ int main() {
     // main thread: send messages to client
     while (1) {
         memset(buffer, 0, BUFFER_SIZE);
-        printf("> ");
         fgets(buffer, BUFFER_SIZE, stdin);
         send(new_socket, buffer, strlen(buffer), 0);
     }

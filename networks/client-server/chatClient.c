@@ -66,7 +66,7 @@ int main() {
         WSACleanup();
         return 1;
     }
-    printf("Connected to server. Start chatting!\n");
+    printf("Connected to server. Start chatting!\n\n");
 
     // create a thread to receive messages
     HANDLE hThread = CreateThread(NULL, 0, recvThread, &sock, 0, NULL);
@@ -80,7 +80,6 @@ int main() {
     // main thread: send messages
     while (1) {
         memset(buffer, 0, BUFFER_SIZE);
-        printf("> ");
         fgets(buffer, BUFFER_SIZE, stdin);
         send(sock, buffer, strlen(buffer), 0);
     }
