@@ -1,5 +1,5 @@
 // stop-and-Wait ARQ receiver (Windows, UDP)
-// compile: gcc ARQstop-waitClient.c -o ARQstop-waitClient -lws2_32
+// compile: gcc ARQstop-waitReceiver.c -o ARQstop-waitReceiver -lws2_32
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -19,7 +19,7 @@
 #define TYPE_ACK  1
 
 // set packet loss probability for simulation (0.0 - 1.0)
-#define LOSS_PROBABILITY 0.1
+#define LOSS_PROBABILITY 0.4
 
 uint8_t checksum(const uint8_t *buf, int len) {
     uint32_t s = 0;

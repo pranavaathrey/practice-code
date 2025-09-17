@@ -1,11 +1,11 @@
 /* 
    Selective Repeat ARQ receiver (Windows, Winsock2)
    Compile:
-     gcc ARQselective-repeatClient.c -o ARQselective-repeatClient.exe -lws2_32
+     gcc ARQselective-repeatReceiver.c -o ARQselective-repeatReceiver.exe -lws2_32
    Usage:
-     ARQselective-repeatClient.exe <listen_port> <loss_percent>
+     ARQselective-repeatReceiver.exe <listen_port> <loss_percent>
    Example:
-     ARQselective-repeatClient.exe 5000 10
+     ARQselective-repeatReceiver.exe 5000 10
 */
 
 #define _WIN32_WINNT 0x0600

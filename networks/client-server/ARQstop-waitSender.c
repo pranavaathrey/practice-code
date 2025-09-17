@@ -1,5 +1,5 @@
 // stop-and-Wait ARQ sender (Windows, UDP)
-// compile: gcc ARQstop-waitServer.c -o ARQstop-waitServer -lws2_32
+// compile: gcc ARQstop-waitSender.c -o ARQstop-waitSender -lws2_32
 
 #include <winsock2.h>
 #include <ws2tcpip.h>

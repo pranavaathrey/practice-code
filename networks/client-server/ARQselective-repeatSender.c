@@ -1,11 +1,11 @@
 /* 
    Selective Repeat ARQ sender (Windows, Winsock2)
    Compile:
-     gcc ARQselective-repeatServer.c -o ARQselective-repeatServer.exe -lws2_32
+     gcc ARQselective-repeatSender.c -o ARQselective-repeatSender.exe -lws2_32
    Usage:
-     ARQselective-repeatServer.exe <receiver_ip> <receiver_port> <window_size> <timeout_ms> <loss_percent>
+     ARQselective-repeatSender.exe <receiver_ip> <receiver_port> <window_size> <timeout_ms> <loss_percent>
    Example:
-     ARQselective-repeatServer.exe 127.0.0.1 5000 4 1000 10
+     ARQselective-repeatSender.exe 127.0.0.1 5000 4 1000 10
 */
 
 #define _WIN32_WINNT 0x0600

@@ -1,5 +1,5 @@
 // Go-Back-N receiver (UDP) for Windows
-// Compile: gcc ARQgo-back-Nclient.c -o ARQgo-back-Nclient.exe -lws2_32   (MinGW)
+// Compile: gcc ARQgo-back-Nreceiver.c -o ARQgo-back-Nreceiver.exe -lws2_32   (MinGW)
 
 #include <winsock2.h>
 #include <windows.h>
@@ -12,7 +12,7 @@
 
 #define SERVER_PORT 8888
 #define MAX_PKT_SIZE 1024
-#define DROP_PROBABILITY 0.2  // 20% chance to drop incoming packet (simulate loss)
+#define DROP_PROBABILITY 0.4  // chance to drop incoming packet (simulate loss)
 
 typedef struct {
     uint32_t seq;
