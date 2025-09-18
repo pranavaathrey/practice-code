@@ -46,7 +46,6 @@ int main() {
         printf("Invalid addressing type.\n");
         return 0;
     }
-
     printf("\nEnter number of subnets: ");
     scanf("%d", &numSubnets);
 
@@ -80,7 +79,7 @@ int main() {
         intToIp(lastHost, &la, &lb, &lc, &ld);
         intToIp(broadcastID, &ba, &bb, &bc, &bd);
 
-        printf("\n-------------Subnet %d-------------\n", i + 1);
+        printf("\n------------Subnet %d------------\n", i + 1);
         printf("%-20s %d.%d.%d.%d\n", "Network ID:", na, nb, nc, nd);
         printf("%-20s %d.%d.%d.%d\n", "First Address:", fa, fb, fc, fd);
         printf("%-20s %d.%d.%d.%d\n", "Last Address:", la, lb, lc, ld);
