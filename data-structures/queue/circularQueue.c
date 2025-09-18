@@ -15,10 +15,12 @@ void enqueue(int value) {
         printf("Queue Overflow\n");
         return;
     }
-    if(front == -1) front = 0;
-    rear = (rear + 1) % SIZE;
-    queue[rear] = value;
+    if(front == -1) 
+        front = rear = 0;
+    else 
+        rear = (rear + 1) % SIZE;
 
+    queue[rear] = value;
     printf("%d enqueued\n", value);
 }
 int dequeue() {
@@ -27,9 +29,9 @@ int dequeue() {
         return -1;
     }
     int value = queue[front];
-    if(front == rear) {
-        front = -1; rear = -1;
-    }else 
+    if(front == rear) 
+        front = rear = -1;
+    else 
         front = (front + 1) % SIZE;
 
     printf("%d dequeued\n", value);
