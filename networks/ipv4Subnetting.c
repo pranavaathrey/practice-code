@@ -79,11 +79,11 @@ int main() {
         intToIp(lastHost, &la, &lb, &lc, &ld);
         intToIp(broadcastID, &ba, &bb, &bc, &bd);
 
-        printf("\n------------Subnet %d------------\n", i + 1);
-        printf("%-20s %d.%d.%d.%d\n", "Network ID:", na, nb, nc, nd);
-        printf("%-20s %d.%d.%d.%d\n", "First Address:", fa, fb, fc, fd);
-        printf("%-20s %d.%d.%d.%d\n", "Last Address:", la, lb, lc, ld);
-        printf("%-20s %d.%d.%d.%d\n", "Broadcast Address:", ba, bb, bc, bd);
+        printf("\n--------------Subnet %d--------------\n", i + 1);
+        printf("%-21s %d.%d.%d.%d\n", "Network ID:", na, nb, nc, nd);
+        printf("%-21s %d.%d.%d.%d\n", "First Address:", fa, fb, fc, fd);
+        printf("%-21s %d.%d.%d.%d\n", "Last Address:", la, lb, lc, ld);
+        printf("%-21s %d.%d.%d.%d\n", "Broadcast Address:", ba, bb, bc, bd);
     }
     return 0;
 }

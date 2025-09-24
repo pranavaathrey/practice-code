@@ -4,9 +4,9 @@
 #include <ctype.h>
 
 int isDecimal(const char *str) {
-    for (int i = 0; str[i]; i++) {
-        if (!isdigit((unsigned char)str[i])) return 0;
-    }
+    for (int i = 0; str[i]; i++) 
+        if (!isdigit((unsigned char)str[i])) 
+            return 0;
     return 1;
 }
 
@@ -33,6 +33,11 @@ Mapping table[] = {
 
     {"push", "3B"},         // 0011 1011
     {"pop", "3C"},          // 0011 1100
+
+    {"jump", "E0"},         // 1110 0000
+    {"call", "38"},         // 0011 1000
+    {"return", "39"},       // 0011 1101
+    {"end", "3A"},          // 0011 1110
 
     // arithmetic
     {"add", "00"},          // 0000 0000
@@ -84,10 +89,57 @@ Mapping table[] = {
     {"XOR_ri", "45"},       // 0100 0101
 
     // conditional
+    {"if_equal", "20"},     // 0010 0000
+    {"if_equal_ii", "E0"},  // 1110 0000
+    {"if_equal_ir", "A0"},  // 1010 0000
+    {"if_equal_ri", "60"},  // 0110 0000
 
+    {"if_nt_eql", "21"},    // 0010 0001
+    {"if_nt_eql_ii", "E1"}, // 1110 0001
+    {"if_nt_eql_ir", "A1"}, // 1010 0001
+    {"if_nt_eql_ri", "61"}, // 0110 0001
 
-    // other
-    {"end", "3A"},          // 0011 1010
+    // unsigned conditionals
+    {"if_less", "22"},      // 0010 0010
+    {"if_less_ii", "E2"},   // 1110 0010
+    {"if_less_ir", "A2"},   // 1010 0010
+    {"if_less_ri", "62"},   // 0110 0010
+
+    {"if_le_eq", "23"},     // 0010 0011
+    {"if_le_eq_ii", "E3"},  // 1110 0011
+    {"if_le_eq_ir", "A3"},  // 1010 0011
+    {"if_le_eq_ri", "63"},  // 0110 0011
+
+    {"if_more", "24"},      // 0010 0100
+    {"if_more_ii", "E4"},   // 1110 0100
+    {"if_more_ir", "A4"},   // 1010 0100
+    {"if_more_ri", "64"},   // 0110 0100
+
+    {"if_mo_eq", "25"},     // 0010 0101
+    {"if_mo_eq_ii", "E5"},  // 1110 0101
+    {"if_mo_eq_ir", "A5"},  // 1010 0101
+    {"if_mo_eq_ri", "65"},  // 0110 0101
+
+    // signed conditionals
+    {"if_less_s", "26"},    // 0010 0110
+    {"if_less_s_ii", "E6"}, // 1110 0110
+    {"if_less_s_ir", "A6"}, // 1010 0110
+    {"if_less_s_ri", "66"}, // 0110 0110
+
+    {"if_le_eq_s", "27"},   // 0010 0111
+    {"if_le_eq_s_ii", "E7"},// 1110 0111
+    {"if_le_eq_s_ir", "A7"},// 1010 0111
+    {"if_le_eq_s_ri", "67"},// 0110 0111
+
+    {"if_more_s", "28"},    // 0010 1000
+    {"if_more_s_ii", "E8"}, // 1110 1000
+    {"if_more_s_ir", "A8"}, // 1010 1000
+    {"if_more_s_ri", "68"}, // 0110 1000
+
+    {"if_mo_eq_s", "29"},   // 0010 1001
+    {"if_mo_eq_s_ii", "E9"},// 1110 1001
+    {"if_mo_eq_s_ir", "A9"},// 1010 1001
+    {"if_mo_eq_s_ri", "69"},// 0110 1001
     
 
     //------------> FILLER <------------//
@@ -123,10 +175,9 @@ Mapping table[] = {
 };
 
 const char* lookup(const char *word) {
-    for (int i = 0; table[i].word != NULL; i++) {
+    for (int i = 0; table[i].word != NULL; i++) 
         if (strcmp(word, table[i].word) == 0) 
             return table[i].code;
-    }
     return NULL;
 }
 
@@ -138,6 +189,8 @@ int main() {
         perror("File error");
         return 1;
     }
+    // Move file pointer to byte index 8
+    fseek(out, 8, SEEK_SET);
 
     char line[512];
     while (fgets(line, sizeof(line), in)) {
