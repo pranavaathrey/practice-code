@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#define RESERVE 8 // lines to reserve (so labels don't conflict with registers)
+
 int isDecimal(const char *str) {
     for (int i = 0; str[i]; i++) 
         if (!isdigit((unsigned char)str[i])) 
@@ -175,10 +177,29 @@ Mapping table[] = {
 };
 
 const char* lookup(const char *word) {
-    for (int i = 0; table[i].word != NULL; i++) 
+    for (int i = 0; table[i].word != NULL; i++) {
         if (strcmp(word, table[i].word) == 0) 
             return table[i].code;
+    }
     return NULL;
+}
+
+// structure for labels
+typedef struct {
+    char name[64];
+    int linePos;
+} Label;
+
+#define MAX_LABELS 256
+Label labels[MAX_LABELS];
+int labelCount = 0;
+
+int findLabel(const char *name) {
+    for (int i = 0; i < labelCount; i++) {
+        if (strcmp(labels[i].name, name) == 0)
+            return labels[i].linePos;
+    }
+    return -1; // not found
 }
 
 int main() {
@@ -189,33 +210,103 @@ int main() {
         perror("File error");
         return 1;
     }
-    // Move file pointer to byte index 8
-    fseek(out, 8, SEEK_SET);
 
     char line[512];
+    int byteOffset = RESERVE * 4; // reserve first few lines
+
+    // ---------- FIRST PASS ---------- (get all label locations)
     while (fgets(line, sizeof(line), in)) {
-        if (strncmp(line, "//", 2) == 0 || strncmp(line, "#", 1) == 0)
+        // strip leading whitespace
+        char *trimmed = line;
+        while (isspace((unsigned char)*trimmed)) trimmed++;
+
+        if (strncmp(trimmed, "//", 2) == 0 || strncmp(trimmed, "#", 1) == 0)
             continue;
 
         char *token = strtok(line, " \t\r\n");
+        if (!token) continue;
+
+        if (strcmp(token, "label") == 0) {
+            // store label name at current byte offset
+            char *labelName = strtok(NULL, " \t\r\n");
+            if (labelName && labelCount < MAX_LABELS) {
+                strcpy(labels[labelCount].name, labelName);
+                labels[labelCount].linePos = byteOffset / 4;
+                labelCount++;
+            }
+            continue; // skip generating bytes
+        }
+
+        // simulate how many bytes this line will output
         while (token) {
             const char *mapped = lookup(token);
+            if (mapped) {
+                byteOffset++;
+            } else if (isDecimal(token)) {
+                byteOffset++;
+            } else {
+                // assume label reference = 1 byte
+                byteOffset++;
+            }
+            token = strtok(NULL, " \t\r\n");
+        }
+    }
+
+    // ---------- SECOND PASS ---------- (assemble given code)
+    rewind(in);
+    byteOffset = RESERVE * 4; // reset for second pass
+
+    // jump to actual code
+    unsigned char jumpInstr[4] = {
+        0xE0, 0x00, 0x00, RESERVE
+    };
+    fwrite(jumpInstr, 1, 4, out);
+
+    // write the dummy bytes (reserved space)
+    for (int i = 4; i < RESERVE * 4; i++) {
+        unsigned char zero = 0x00;
+        fwrite(&zero, 1, 1, out);
+    }
+
+    while (fgets(line, sizeof(line), in)) {
+        // strip leading whitespace
+        char *trimmed = line;
+        while (isspace((unsigned char)*trimmed)) trimmed++;
+
+        if (strncmp(trimmed, "//", 2) == 0 || strncmp(trimmed, "#", 1) == 0)
+            continue;
+
+        char *token = strtok(line, " \t\r\n");
+        if (!token) continue;
+
+        if (strcmp(token, "label") == 0) {
+            // don't emit labels to output
+            continue;
+        }
+
+        while (token) {
             char hexCode[16];
+            const char *mapped = lookup(token);
 
             if (mapped) 
                 strcpy(hexCode, mapped);
             else if (isDecimal(token)) 
                 decimalToHex(token, hexCode);
             else {
-                // if unknown word
-                printf("Unknown instruction: %s\n", token);
-                strcpy(hexCode, "??");
+                // check if it's a label reference
+                int addr = findLabel(token);
+                if (addr != -1) 
+                    sprintf(hexCode, "%02X", addr);
+                else {
+                    printf("Unknown instruction: %s\n", token);
+                    strcpy(hexCode, "??");
+                }
             }
-
             unsigned int byte;
             if (sscanf(hexCode, "%x", &byte) == 1) {
                 unsigned char b = (unsigned char)byte;
                 fwrite(&b, 1, 1, out);
+                byteOffset++;
             }
             token = strtok(NULL, " \t\r\n");
         }

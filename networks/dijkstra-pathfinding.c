@@ -62,8 +62,8 @@ int main() {
     for (int i = 0; i < E; i++) {
         int u, v, w;
         scanf("%d %d %d", &u, &v, &w);
-        graph[u][v] = w;   // Directed graph
-        // If undirected, also add: graph[v][u] = w;
+        graph[u][v] = w;   // directed graph
+        // if undirected, also add: graph[v][u] = w;
     }
 
     int src;
