@@ -13,7 +13,7 @@ int isEmpty() {
     return size == 0;
 }
 
-// Enqueue function (only even numbers allowed)
+// even only enqueue
 void enqueue(int value) {
     if (value % 2 != 0) {
         printf("Only even numbers can be enqueued!\n");
@@ -30,13 +30,13 @@ void enqueue(int value) {
     size++;
 }
 
-// Dequeue maximum element
+// dequeue maximum element
 void dequeueMax() {
     if (isEmpty()) {
         printf("Queue Underflow\n");
         return;
     }
-    // Find max element and its index
+    // find max element and its index
     int maxVal = queue[front];
     int maxIdx = front;
     int idx = front;
@@ -47,8 +47,7 @@ void dequeueMax() {
         }
         idx = (idx + 1) % capacity;
     }
-
-    // Remove max element by shifting others
+    // remove max element by shifting others
     int next = (maxIdx + 1) % capacity;
     while (next != (rear + 1) % capacity) {
         queue[maxIdx] = queue[next];
@@ -58,9 +57,8 @@ void dequeueMax() {
     rear = (rear - 1 + capacity) % capacity;
     size--;
 
-    if (size == 0) {
+    if (size == 0) 
         front = rear = -1;
-    }
     printf("Element dequeued: %d\n", maxVal);
 }
 
@@ -83,7 +81,7 @@ int main() {
     int choice, value;
 
     scanf("%d", &capacity);
-    if (capacity > MAX) capacity = MAX;  // limit capacity to MAX
+    if (capacity > MAX) capacity = MAX; 
 
     while (1) {
         scanf("%d", &choice);

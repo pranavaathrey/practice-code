@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define SIZE 256
 
 int queue[SIZE];

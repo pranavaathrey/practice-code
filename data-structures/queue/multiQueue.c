@@ -8,12 +8,12 @@ int main() {
     int k, n;
     scanf("%d %d", &k, &n);
 
-    int arr[MAXN];                  // Shared array
-    int front[MAXK], rear[MAXK];    // Front & rear for each queue
-    int start[MAXK], end[MAXK];     // Partition boundaries for each queue
-    int size[MAXK];                 // Capacity of each queue
+    int arr[MAXN];                  // shared array
+    int front[MAXK], rear[MAXK];    // front & rear for each queue
+    int start[MAXK], end[MAXK];     // partition boundaries for each queue
+    int size[MAXK];                 // capacity of each queue
 
-    // Divide array space equally among queues
+    // divide array space equally among queues
     int base = n / k;
     int extra = n % k;
     int idx = 0;
@@ -30,30 +30,25 @@ int main() {
         int op;
         if (scanf("%d", &op) != 1) break;
 
-        if (op == 0) {
-            break; // Exit
-        }
+        if (op == 0) break; // exit
         else if (op == 1) {
             int item, q;
             scanf("%d %d", &item, &q);
 
             if (q < 0 || q >= k || size[q] == 0) {
-                // Invalid queue (ignore, as per problem constraints it won't occur)
+                // invalid queue
                 continue;
             }
-
-            // Check overflow
+            // check overflow
             if ((front[q] == 0 && rear[q] == size[q] - 1) ||
                 (rear[q] + 1) % size[q] == front[q]) {
                 printf("Queue %d overflow\n", q);
                 continue;
             }
-
-            if (front[q] == -1) {
+            if (front[q] == -1) 
                 front[q] = rear[q] = 0;
-            } else {
+            else 
                 rear[q] = (rear[q] + 1) % size[q];
-            }
 
             arr[start[q] + rear[q]] = item;
         }
@@ -61,27 +56,21 @@ int main() {
             int q;
             scanf("%d", &q);
 
-            if (q < 0 || q >= k || size[q] == 0) {
-                continue; // Invalid queue
-            }
-
-            // Underflow
+            if (q < 0 || q >= k || size[q] == 0) 
+                continue; // invalid queue
+            // underflow
             if (front[q] == -1) {
                 printf("Queue %d underflow\n", q);
                 continue;
             }
-
             int item = arr[start[q] + front[q]];
 
-            if (front[q] == rear[q]) {
-                front[q] = rear[q] = -1; // Queue empty
-            } else {
+            if (front[q] == rear[q]) 
+                front[q] = rear[q] = -1; // queue empty
+            else 
                 front[q] = (front[q] + 1) % size[q];
-            }
-
             printf("Dequeued element from queue %d is %d\n", q, item);
         }
     }
-
     return 0;
 }
