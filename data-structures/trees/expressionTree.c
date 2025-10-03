@@ -21,7 +21,7 @@ int isOperator(char c) {
 }
 
 // Build expression tree from postfix input
-Node* buildTreePostfix(char postfix[]) {
+Node* buildTree(char postfix[]) {
     Node* stack[100];
     int top = -1;
 
@@ -88,7 +88,7 @@ int main() {
     printf("Enter postfix input: ");
     scanf("%s", &postfix); 
 
-    Node* root = buildTreePostfix(postfix);
+    Node* root = buildTree(postfix);
 
     printf("Infix   : "); inorder(root); printf("\n");
     printf("Prefix  : "); preorder(root); printf("\n");

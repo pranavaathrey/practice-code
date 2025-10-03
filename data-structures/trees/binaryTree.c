@@ -22,20 +22,37 @@ Node* createNode(int data) {
 // returns the height/depth of tree
 int height(Node* root) {
     if (!root) return 0;
-    int lh = height(root->left);
-    int rh = height(root->right);
-    return (lh > rh ? lh : rh) + 1;
+    int leftHgt = height(root->left);
+    int rightHgt = height(root->right);
+    return (leftHgt > rightHgt ? leftHgt : rightHgt) + 1;
 }
+// returns the total number of tree nodes
 int countNodes(Node* root) {
     if (!root) return 0;
     return 1 + countNodes(root->left) 
         + countNodes(root->right);
 }
+// returns the number of leaves (nodes w/o children)
 int countLeaves(Node* root) {
     if (!root) return 0;
     if (!root->left && !root->right) return 1;
     return countLeaves(root->left) 
         + countLeaves(root->right);
+}
+// diameter of tree (longest path between 2 nodes)
+int diameterUtil(Node* root, int* height) {
+    if (!root) { *height = 0; return 0; }
+    int lh = 0, rh = 0;
+    int ld = diameterUtil(root->left, &lh);
+    int rd = diameterUtil(root->right, &rh);
+    *height = (lh > rh ? lh : rh) + 1;
+    int diameterThroughRoot = lh + rh + 1;
+    return (ld > rd ? (ld > diameterThroughRoot ? ld : diameterThroughRoot)
+                    : (rd > diameterThroughRoot ? rd : diameterThroughRoot));
+}
+int diameter(Node* root) {
+    int h = 0;
+    return diameterUtil(root, &h);
 }
 
 // --------BUILDING TREES-------- //
@@ -205,7 +222,7 @@ int isBST(Node* root) {
     return isBSTUtil(root, -1e9, 1e9); // assume int range
 }
 
-// find min value in tree (any binary tree, not just BST)
+// find min value in binary tree
 int findMin(Node* root) {
     if (!root) return 1e9;
     int left = findMin(root->left);
@@ -215,6 +232,7 @@ int findMin(Node* root) {
     if (right < min) min = right;
     return min;
 }
+// find max value in binary tree
 int findMax(Node* root) {
     if (!root) return -1e9;
     int left = findMax(root->left);
@@ -234,7 +252,7 @@ int areEqual(Node* t1, Node* t2) {
            areEqual(t1->right, t2->right);
 }
 
-// Lowest Common Ancestor (general binary tree, not BST)
+// Lowest Common Ancestor in binary tree
 Node* LCA(Node* root, int n1, int n2) {
     if (!root) return NULL;
     if (root->data == n1 || root->data == n2) return root;
@@ -258,22 +276,6 @@ int checkBalanced(Node* root) {
 }
 int isBalanced(Node* root) {
     return checkBalanced(root) != -1;
-}
-
-// diameter of tree (longest path between 2 nodes)
-int diameterUtil(Node* root, int* height) {
-    if (!root) { *height = 0; return 0; }
-    int lh = 0, rh = 0;
-    int ld = diameterUtil(root->left, &lh);
-    int rd = diameterUtil(root->right, &rh);
-    *height = (lh > rh ? lh : rh) + 1;
-    int diameterThroughRoot = lh + rh + 1;
-    return (ld > rd ? (ld > diameterThroughRoot ? ld : diameterThroughRoot)
-                    : (rd > diameterThroughRoot ? rd : diameterThroughRoot));
-}
-int diameter(Node* root) {
-    int h = 0;
-    return diameterUtil(root, &h);
 }
 
 // --------TREE OPERATIONS-------- //
