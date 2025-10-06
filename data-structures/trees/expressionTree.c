@@ -11,7 +11,8 @@ typedef struct Node {
 Node* createNode(char data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
-    newNode->left = newNode->right = NULL;
+    newNode->left = NULL;
+    newNode->right = NULL;
     return newNode;
 }
 
@@ -28,9 +29,9 @@ Node* buildTree(char postfix[]) {
     for (int i = 0; postfix[i] != '\0'; i++) {
         if (isspace(postfix[i])) continue;
 
-        if (!isOperator(postfix[i])) {
+        if (!isOperator(postfix[i])) 
             stack[++top] = createNode(postfix[i]);
-        } else {
+        else {
             Node* node = createNode(postfix[i]);
             node->right = stack[top--];
             node->left = stack[top--];

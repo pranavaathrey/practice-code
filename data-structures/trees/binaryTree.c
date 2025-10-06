@@ -91,20 +91,19 @@ Node* buildTreeLevelOrder(int n, int arr[]) {
     if (n == 0 || arr[0] == -1) return NULL;
 
     Node* root = createNode(arr[0]);
-    Queue q;
-    initQueue(&q);
+    Queue q; initQueue(&q);
     enqueue(&q, root);
 
     int i = 1;
-    while (i < n) {
+    while (i < n && !isEmpty(&q)) {
         Node* parent = dequeue(&q);
         
-        if (i < n) { // left child
+        if (i < n && arr[i] != -1) { // left child
             parent->left = createNode(arr[i]);
             if (parent->left) enqueue(&q, parent->left);
             i++;
         }      
-        if (i < n) { // right child
+        if (i < n && arr[i] != -1) { // right child
             parent->right = createNode(arr[i]);
             if (parent->right) enqueue(&q, parent->right);
             i++;
@@ -151,11 +150,10 @@ void postorder(Node* root) {
 }
 void levelorder(Node* root) {
     if (!root) return;
-    Queue q;
-    initQueue(&q);
+    Queue q; initQueue(&q);
     enqueue(&q, root);
 
-    while (!isEmpty(&q)) {
+    while(!isEmpty(&q)) {
         Node* cur = dequeue(&q);
         printf("%d ", cur->data);
         if (cur->left) enqueue(&q, cur->left);
@@ -164,23 +162,23 @@ void levelorder(Node* root) {
 }
 // zigzag / spiral level order traversal
 void zigzagTraversal(Node* root) {
-    if (!root) return;
-    Queue q;
-    initQueue(&q);
+    if(!root) return;
+    Queue q; initQueue(&q);
     enqueue(&q, root);
     int leftToRight = 1; // direction flag
 
-    while (!isEmpty(&q)) {
+    while(!isEmpty(&q)) {
         int size = q.rear - q.front;
         int* level = (int*)malloc(size * sizeof(int));
-        for (int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++) {
             Node* cur = dequeue(&q);
             int idx = leftToRight ? i : (size - 1 - i);
             level[idx] = cur->data;
             if (cur->left) enqueue(&q, cur->left);
             if (cur->right) enqueue(&q, cur->right);
         }
-        for (int i = 0; i < size; i++) printf("%d ", level[i]);
+        for(int i = 0; i < size; i++) 
+            printf("%d ", level[i]);
         free(level);
         leftToRight = !leftToRight;
     }
