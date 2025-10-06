@@ -38,7 +38,6 @@ void dijkstra(int graph[MAX][MAX], int V, int src) {
             }
         }
     }
-
     printf("\nVertex\tDistance from Source (%d)\n", src);
     for (int i = 0; i < V; i++) {
         if (dist[i] == INT_MAX)
