@@ -21,15 +21,15 @@ void addEdge(GraphMatrix* graph, int u, int v) {
 }
 
 /* ------------------------- BFS ------------------------- */
-void BFS(GraphMatrix* graph, int start) {
+void BFS(GraphMatrix* graph, int startVertex) {
     int* visited = (int*)calloc(graph->V, sizeof(int));
     int* queue = (int*)malloc(graph->V * sizeof(int));
     int front = 0, rear = 0;
 
-    visited[start] = 1;
-    queue[rear++] = start;
+    visited[startVertex] = 1;
+    queue[rear++] = startVertex;
 
-    printf("\nBFS starting from vertex %d: ", start);
+    printf("\nBFS starting from vertex %d: ", startVertex);
 
     while (front != rear) {
         int current = queue[front++];
@@ -42,7 +42,6 @@ void BFS(GraphMatrix* graph, int start) {
             }
         }
     }
-
     printf("\n");
     free(queue);
     free(visited);
