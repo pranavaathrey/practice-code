@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 
+// singly linked node
 typedef struct Term {
     float coefficient;
     int exponent;
