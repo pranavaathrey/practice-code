@@ -7,6 +7,7 @@
 // stack data structure (using arrays)
 int stack[MAX];
 int stackPointer = -1;
+
 void push(int val) {
     if(stackPointer < MAX - 1)
         stack[++stackPointer] = val;
