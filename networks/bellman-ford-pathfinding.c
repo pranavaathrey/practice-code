@@ -1,1 +1,1 @@
-../algorithms/pathfinding/bellman-ford-pathfinding.c
+../algorithms/graphs/pathfinding/bellman-ford-pathfinding.c

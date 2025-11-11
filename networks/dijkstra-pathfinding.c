@@ -1,1 +1,1 @@
-../algorithms/pathfinding/dijkstra-pathfinding.c
+../algorithms/graphs/pathfinding/dijkstra-pathfinding.c
