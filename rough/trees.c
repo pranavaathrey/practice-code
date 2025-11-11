@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 typedef struct Node {
     int data;
@@ -82,3 +83,56 @@ int kthMin(Node*root, int k) {
     return result;
 }
 
+typedef struct Node2 {
+    char data;
+    struct Node2* left;
+    struct Node2* right;
+} Node2;
+
+Node2* createNode(char data) {
+    Node2* newNode = (Node2*)malloc(sizeof(Node2));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+int isop(char ch) {
+    return (ch == '+' || ch == '-' 
+         || ch == '*' || ch == '/');
+}
+
+Node2* buildExpressionTree(char postfix[]) {
+    Node2* stack[256];
+    int top = -1;
+
+    for(int i = 0; postfix[i] != '\0'; i++) {
+        if(isspace(postfix[i])) continue;
+
+        if(!isop(postfix[i])) 
+            stack[++top] = createNode(postfix[i]);
+        else {
+            Node2* opNode = createNode(postfix[i]);
+            opNode->right = stack[top--];
+            opNode->left = stack[top--];
+            stack[++top] = opNode;
+        }
+    }
+    return stack[top];
+}
+
+int evaluate(Node2* root) {
+    if(!isop(root->data)) 
+        return root->data - '0';
+
+    int leftVal = evaluate(root->left);
+    int rightVal = evaluate(root->right);
+
+    switch(root->data) {
+        case '+': return leftVal + rightVal;
+        case '-': return leftVal - rightVal;
+        case '*': return leftVal * rightVal;
+        case '/': return leftVal / rightVal;
+    }
+    return 0;
+}

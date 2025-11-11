@@ -32,10 +32,10 @@ Node* buildTree(char postfix[]) {
         if (!isOperator(postfix[i])) 
             stack[++top] = createNode(postfix[i]);
         else {
-            Node* node = createNode(postfix[i]);
-            node->right = stack[top--];
-            node->left = stack[top--];
-            stack[++top] = node;
+            Node* opNode = createNode(postfix[i]);
+            opNode->right = stack[top--];
+            opNode->left = stack[top--];
+            stack[++top] = opNode;
         }
     }
     return stack[top];
