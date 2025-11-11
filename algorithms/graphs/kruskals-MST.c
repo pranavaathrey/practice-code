@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// struct to store two nodes and an edge weight (respectively)
 typedef struct {
     int u, v, w;
 } Edge;
 
-// Union–Find
+// Union–Find: determines if cycles are present
 int find(int parent[], int x) {
     while (parent[x] != x)
         x = parent[x];
@@ -18,7 +19,7 @@ void unite(int parent[], int a, int b) {
         parent[pb] = pa;   // attach b's root to a's root
 }
 
-// qsort compare function
+// qsort compare function (ascending order of weights)
 int cmpEdge(const void *a, const void *b) {
     Edge *e1 = (Edge *)a;
     Edge *e2 = (Edge *)b;
@@ -29,7 +30,7 @@ void kruskal(int n, Edge edges[], int m) {
     // sort edges by weight
     qsort(edges, m, sizeof(Edge), cmpEdge);
 
-    int parent[n];
+    int parent[n];        // initialize
     for (int i = 0; i < n; i++)
         parent[i] = i;    // each vertex is its own set
 
