@@ -6,9 +6,11 @@ typedef struct Node {
     int vertex;
     struct Node* next;
 } Node;
+
 typedef struct {
     Node* head;
 } List;
+
 
 // graph
 typedef struct {
@@ -16,6 +18,7 @@ typedef struct {
     List* adjLists;
     int* visited;
 } Graph;
+
 Graph* createGraph(int vertices) {
     Graph* graph = malloc(sizeof(Graph));
     graph->numVertices = vertices;
@@ -28,12 +31,14 @@ Graph* createGraph(int vertices) {
     }
     return graph;
 }
+
 Node* createNode(int v) {
     Node* newNode = malloc(sizeof(Node));
     newNode->vertex = v;
     newNode->next = NULL;
     return newNode;
 }
+
 void addEdge(Graph* graph, int src, int dest) {
     // add edge from src to dest
     Node* newNode = createNode(dest);
@@ -44,39 +49,4 @@ void addEdge(Graph* graph, int src, int dest) {
     newNode = createNode(src);
     newNode->next = graph->adjLists[dest].head;
     graph->adjLists[dest].head = newNode;
-}
-
-void DFS(Graph* graph, int vertex) {
-    Node* adjList = graph->adjLists[vertex].head;
-    Node* temp = adjList;
-
-    graph->visited[vertex] = 1;
-    printf("%d ", vertex);
-
-    while (temp != NULL) {
-        int connectedVertex = temp->vertex;
-
-        if (graph->visited[connectedVertex] == 0) {
-            DFS(graph, connectedVertex);
-        }
-        temp = temp->next;
-    }
-}
-
-int main() {
-    Graph* graph = createGraph(6);
-
-    addEdge(graph, 0, 1);
-    addEdge(graph, 0, 2);
-    addEdge(graph, 1, 3);
-    addEdge(graph, 1, 4);
-    addEdge(graph, 2, 4);
-    addEdge(graph, 3, 5);
-    addEdge(graph, 4, 5);
-
-    int n; scanf("%d", &n);
-    printf("Depth First Search starting from vertex %d:\n", n);
-    DFS(graph, n);
-
-    return 0;
 }

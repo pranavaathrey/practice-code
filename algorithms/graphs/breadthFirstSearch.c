@@ -89,15 +89,12 @@ void BFS(Graph* graph, int startVertex) {
     graph->visited[startVertex] = 1;
     enqueue(q, startVertex);
 
-    printf("Breadth First Search starting from vertex %d:\n", 
-        startVertex);
-
     while (!isEmpty(q)) {
         int currentVertex = dequeue(q);
         printf("%d ", currentVertex);
 
         Node* temp = graph->adjLists[currentVertex].head;
-        while (temp) {
+        while (temp != NULL) {
             int adjVertex = temp->vertex;
             if (graph->visited[adjVertex] == 0) {
                 graph->visited[adjVertex] = 1;
@@ -120,7 +117,9 @@ int main() {
     addEdge(graph, 3, 5);
     addEdge(graph, 4, 5);
 
-    BFS(graph, 0);
+    int n; scanf("%d", &n);
+    printf("Breadth First Search starting from vertex %d:\n", n);
+    BFS(graph, n);
 
     return 0;
 }

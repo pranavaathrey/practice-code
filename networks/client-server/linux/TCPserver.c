@@ -27,15 +27,12 @@ int main() {
     sscanf(msg, "%lf %c %lf", &a, &op, &b);
     
     double result = 0;
-    if (op == '+')
-        result = a + b;
-    else if (op == '-')
-        result = a - b;
-    else if (op == '*')
-        result = a * b;
-    else if (op == '/')
-        result = (b != 0)? a / b : 0;
-    
+    switch(op) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = (b != 0)? a / b : 0; break;
+    }    
     char out[100];
     sprintf(out, "%f", result);
     write(client, out, strlen(out));

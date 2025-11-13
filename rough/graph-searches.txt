@@ -1,0 +1,33 @@
+dfs: 
+    get adjacency list for given vertex.
+
+    mark vertex as visited
+    print vertex.
+
+    while (there are nodes in the adjacency list),
+        get current vertex
+
+        check if it is visited, if it isnt,
+            perform dfs for this vertex
+        
+        go to the next node
+
+
+bfs:
+    init our queue
+
+    enqueue our given vertex
+    mark it as visited
+    
+    while (queue isnt empty),
+        current vertex = dequeue()
+        print (current vertex)
+
+        get the adjacency list for current vertex
+        while (there are nodes in the adjacency list),
+            get node's vertex
+            check if it is visited, if it isnt,
+                enqueue this vertex
+                mark it as visited
+            
+            go to the next node

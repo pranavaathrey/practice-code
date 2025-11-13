@@ -7,7 +7,7 @@
 
 int main() {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    
+
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(8080);
@@ -17,8 +17,8 @@ int main() {
 
     char expr[100];
     printf("Enter expression: ");
-
     fgets(expr, 100, stdin);
+    
     expr[strcspn(expr, "\n")] = 0;
     write(sockfd, expr, strlen(expr));
 
