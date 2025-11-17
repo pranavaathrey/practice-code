@@ -7,6 +7,14 @@ typedef struct Node {
     struct Node *right;
     int height;
 } Node;
+// allocate a new node 
+Node* createNode(int key) {
+    Node *n = (Node*)malloc(sizeof(Node));
+    n->key = key;
+    n->left = n->right = NULL;
+    n->height = 1;
+    return n;
+}
 
 //--------UTILITY FUNCTIONS--------//
 
@@ -15,7 +23,7 @@ int height(Node *n) {
     if (n == NULL) return 0;
     return n->height;
 }
-// Inorder traversal 
+// inorder traversal 
 void inorder(Node *root) {
     if (root != NULL) {
         inorder(root->left);
@@ -23,8 +31,8 @@ void inorder(Node *root) {
         inorder(root->right);
     }
 }
-// Find node with minimum key 
-Node* minValueNode(Node *root) {
+// find node with minimum key 
+Node* findMin(Node *root) {
     Node *curr = root;
     while (curr->left != NULL)
         curr = curr->left;
@@ -33,21 +41,6 @@ Node* minValueNode(Node *root) {
 // return max of two integers 
 int max(int a, int b) {
     return (a > b) ? a : b;
-}
-
-// Get balance factor of node 
-int getBalance(Node *n) {
-    if (n == NULL) return 0;
-    return height(n->left) - height(n->right);
-}
-
-// Allocate new node 
-Node* createNode(int key) {
-    Node *n = (Node*)malloc(sizeof(Node));
-    n->key = key;
-    n->left = n->right = NULL;
-    n->height = 1;
-    return n;
 }
 
 //-----------ROTATIONS-----------//
@@ -79,6 +72,36 @@ Node* rotateLeft(Node *x) {
     return y;
 }
 
+//-----------BALANCING-----------//
+
+// get balance factor of node 
+int getBalance(Node *n) {
+    if (n == NULL) return 0;
+    return height(n->left) - height(n->right);
+}
+// balance the tree
+Node* balance_tree(Node *root) {
+    int balance = getBalance(root);
+
+    // LL case
+    if (balance > 1 && getBalance(root->left) >= 0)
+        return rotateRight(root);
+    // LR case
+    if (balance > 1 && getBalance(root->left) < 0) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+    // RR case
+    if (balance < -1 && getBalance(root->right) <= 0)
+        return rotateLeft(root);
+    // RL case
+    if (balance < -1 && getBalance(root->right) > 0) {
+        root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+    return root;
+}
+
 //--------INSERTIONS & DELETIONS--------//
 
 // insert key into AVL 
@@ -90,30 +113,12 @@ Node* insert(Node* root, int key) {
         root->left = insert(root->left, key);
     else if (key > root->key)
         root->right = insert(root->right, key);
-    else 
-        return root;    // ignore duplicates 
+    else
+        return root;
 
     root->height = 1 + max(height(root->left), height(root->right));
-    int balance = getBalance(root);
-    /* LL case */
-    if (balance > 1 && key < root->left->key)
-        return rotateRight(root);
-    /* RR case */
-    if (balance < -1 && key > root->right->key)
-        return rotateLeft(root);
-    /* LR case */
-    if (balance > 1 && key > root->left->key) {
-        root->left = rotateLeft(root->left);
-        return rotateRight(root);
-    }
-    /* RL case */
-    if (balance < -1 && key < root->right->key) {
-        root->right = rotateRight(root->right);
-        return rotateLeft(root);
-    }
-    return root;
+    return balance_tree(root);
 }
-
 // delete key from AVL 
 Node* delete(Node *root, int key) {
     if (root == NULL) return root;
@@ -123,7 +128,6 @@ Node* delete(Node *root, int key) {
     else if (key > root->key)
         root->right = delete(root->right, key);
     else {
-        // node to delete found 
         if (root->left == NULL || root->right == NULL) {
             Node *temp = root->left ? root->left : root->right;
             if (temp == NULL) {
@@ -134,7 +138,7 @@ Node* delete(Node *root, int key) {
             }
             free(temp);
         } else {
-            Node *temp = minValueNode(root->right);
+            Node *temp = findMin(root->right);
             root->key = temp->key;
             root->right = delete(root->right, temp->key);
         }
@@ -143,25 +147,7 @@ Node* delete(Node *root, int key) {
         return root;
 
     root->height = 1 + max(height(root->left), height(root->right));
-    int balance = getBalance(root);
-
-    /* LL case */
-    if (balance > 1 && getBalance(root->left) >= 0)
-        return rotateRight(root);
-    /* LR case */
-    if (balance > 1 && getBalance(root->left) < 0) {
-        root->left = rotateLeft(root->left);
-        return rotateRight(root);    
-    }
-    /* RR case */
-    if (balance < -1 && getBalance(root->right) <= 0)
-        return rotateLeft(root);
-    /* RL case */
-    if (balance < -1 && getBalance(root->right) > 0) {
-        root->right = rotateRight(root->right);
-        return rotateLeft(root);
-    }
-    return root;
+    return balance_tree(root);
 }
 
 int main() {

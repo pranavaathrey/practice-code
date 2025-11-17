@@ -6,7 +6,6 @@ typedef struct Node {
     struct Node *left;
     struct Node *right;
 } Node;
-
 // create a new tree node
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
@@ -16,7 +15,7 @@ Node* createNode(int data) {
     return newNode;
 }
 
-// -----------traversals----------- //
+// -----------TRAVERSALS----------- //
 
 void inorder(Node* root) {
     if (root != NULL) {
@@ -40,6 +39,8 @@ void postorder(Node* root) {
     }
 }
 
+// -----------OPERATIONS----------- //
+
 // insert a node into BST
 Node* insert(Node* root, int data) {
     if (root == NULL) 
@@ -53,13 +54,13 @@ Node* insert(Node* root, int data) {
     return root; // unchanged root pointer
 }
 // delete a node
-Node* deleteNode(Node* root, int key) {
+Node* delete(Node* root, int key) {
     if (root == NULL) return root;
 
     if (key < root->data)
-        root->left = deleteNode(root->left, key);
+        root->left = delete(root->left, key);
     else if (key > root->data)
-        root->right = deleteNode(root->right, key);
+        root->right = delete(root->right, key);
     else { // node found
         if (root->left == NULL) {
             Node* temp = root->right;
@@ -74,7 +75,7 @@ Node* deleteNode(Node* root, int key) {
         // two children: replace with inorder successor
         Node* temp = findMin(root->right);
         root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
+        root->right = delete(root->right, temp->data);
     }
     return root;
 }
@@ -163,7 +164,6 @@ int main() {
     for (int i = 0; i < 7; i++) {
         root = insert(root, values[i]);
     }
-
     printf("Inorder traversal: ");
     inorder(root);
     printf("\n");
@@ -183,17 +183,17 @@ int main() {
     else printf("%d not found in BST\n", key);
 
     // Delete test
-    root = deleteNode(root, 20);
+    root = delete(root, 20);
     printf("Inorder after deleting 20: ");
     inorder(root);
     printf("\n");
 
-    root = deleteNode(root, 30);
+    root = delete(root, 30);
     printf("Inorder after deleting 30: ");
     inorder(root);
     printf("\n");
 
-    root = deleteNode(root, 50);
+    root = delete(root, 50);
     printf("Inorder after deleting 50: ");
     inorder(root);
     printf("\n");
