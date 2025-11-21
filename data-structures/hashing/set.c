@@ -13,45 +13,45 @@ typedef struct Node {
 // hash table
 Node *table[TABLE_SIZE];
 // hashing function (djb2-like)
-unsigned int hash(const char *s) {
-    unsigned int h = 0;
-    while (*s) 
-        h = h * 31 + *s++;
-    return h % TABLE_SIZE;
+unsigned int hash(const char *key) {
+    unsigned int hash = 0;
+    while (*key) 
+        hash = hash * 31 + *key++;
+    return hash % TABLE_SIZE;
 }
 
 // -----------SET FUNCTIONS-----------//
 
-int contains(const char *s) {
-    unsigned int idx = hash(s);
+int contains(const char *key) {
+    unsigned int idx = hash(key);
     Node *cur = table[idx];
 
     while (cur) {
-        if (strcmp(cur->value, s) == 0) 
+        if (strcmp(cur->value, key) == 0) 
             return 1;
         cur = cur->next;
     }
     return 0;
 }
 
-void insert(const char *s) {
-    if (contains(s)) 
+void insert(const char *key) {
+    if (contains(key)) 
         return;  // enforce no duplicates
         
-    unsigned int idx = hash(s);
+    unsigned int idx = hash(key);
     Node *n = malloc(sizeof(Node));
 
-    n->value = strdup(s);
+    n->value = strdup(key);
     n->next = table[idx];
     table[idx] = n;
 }
-void delete(const char *s) {
-    unsigned int idx = hash(s);
+void delete(const char *key) {
+    unsigned int idx = hash(key);
     Node *cur = table[idx];
     Node *prev = NULL;
 
     while(cur) {
-        if(strcmp(cur->value, s) == 0) {
+        if(strcmp(cur->value, key) == 0) {
             if(prev) 
                 prev->next = cur->next;
             else 

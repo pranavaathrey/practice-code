@@ -2,14 +2,14 @@
 #include <stdlib.h>
 
 typedef struct {
-    int *data;
+    int *arr;
     int size;
     int capacity;
 } PriorityQueue;
-// uses min heaps
+// uses max heaps; larger value, greater priority
 PriorityQueue *createPQ(int capacity) {
     PriorityQueue *pq = malloc(sizeof(PriorityQueue));
-    pq->data = malloc(sizeof(int) * capacity);
+    pq->arr = malloc(sizeof(int) * capacity);
     pq->size = 0;
     pq->capacity = capacity;
     return pq;
@@ -21,68 +21,65 @@ static void swap(int *a, int *b) {
     *b = t;
 }
 
-static void heapifyDown(PriorityQueue *pq, int i) {
+void maxHeapify(PriorityQueue *h, int i) {
     int largest = i;
-    int left = 2*i + 1;
-    int right = 2*i + 2;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
 
-    if (left < pq->size && pq->data[left] > pq->data[largest])
+    if (left < h->size && h->arr[left] > h->arr[largest])
         largest = left;
 
-    if (right < pq->size && pq->data[right] > pq->data[largest])
+    if (right < h->size && h->arr[right] > h->arr[largest])
         largest = right;
 
     if (largest != i) {
-        swap(&pq->data[i], &pq->data[largest]);
-        heapifyDown(pq, largest);
+        swap(&h->arr[i], &h->arr[largest]);
+        maxHeapify(h, largest);
     }
 }
-static void heapifyUp(PriorityQueue *pq, int i) {
-    int parent = (i - 1) / 2;
-
-    while (i > 0 && pq->data[i] > pq->data[parent]) {
-        swap(&pq->data[i], &pq->data[parent]);
-        i = parent;
-        parent = (i - 1) / 2;
-    }
+void buildMaxHeap(PriorityQueue *h) {
+    for (int i = h->size / 2 - 1; i >= 0; i--)
+        maxHeapify(h, i);
 }
 
-void insert(PriorityQueue *pq, int value) {
-    if (pq->size == pq->capacity) {
-        pq->capacity *= 2;
-        pq->data = realloc(pq->data, pq->capacity * sizeof(int));
+void insertMaxHeap(PriorityQueue *h, int x) {
+    if (h->size >= h->capacity) {
+        printf("Heap full\n");
+        return;
     }
-    pq->data[pq->size] = value;
-    heapifyUp(pq, pq->size);
-    pq->size++;
+    int i = h->size++;
+    h->arr[i] = x;
+
+    while (i != 0 && h->arr[(i - 1) / 2] < h->arr[i]) {
+        swap(&h->arr[i], &h->arr[(i - 1) / 2]);
+        i = (i - 1) / 2;
+    }
+}
+int extractMax(PriorityQueue *h) {
+    if (h->size <= 0)
+        return -1;
+
+    int root = h->arr[0];
+    h->arr[0] = h->arr[--h->size];
+    maxHeapify(h, 0);
+    return root;
 }
 
 int getMax(PriorityQueue *pq) {
-    return pq->size == 0 ? -1 : pq->data[0];
+    return pq->size == 0 ? -1 : pq->arr[0];
 }
-int extractMax(PriorityQueue *pq) {
-    if (pq->size == 0) return -1;
-
-    int maxVal = pq->data[0];
-    pq->data[0] = pq->data[pq->size - 1];
-    pq->size--;
-    heapifyDown(pq, 0);
-
-    return maxVal;
-}
-
 void freePQ(PriorityQueue *pq) {
-    free(pq->data);
+    free(pq->arr);
     free(pq);
 }
 
 int main() {
     PriorityQueue *pq = createPQ(10);
 
-    insert(pq, 40);
-    insert(pq, 15);
-    insert(pq, 30);
-    insert(pq, 50);
+    insertMaxHeap(pq, 40);
+    insertMaxHeap(pq, 15);
+    insertMaxHeap(pq, 30);
+    insertMaxHeap(pq, 50);
 
     printf("Max: %d\n", getMax(pq));
     printf("Extract: %d\n", extractMax(pq));

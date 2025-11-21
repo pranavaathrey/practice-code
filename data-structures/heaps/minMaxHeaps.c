@@ -89,7 +89,7 @@ void insertMaxHeap(Heap *h, int x) {
     }
 }
 
-// ----GET MIN/MAX---- //
+// ----EXTRACT MIN/MAX---- //
 
 int extractMin(Heap *h) {
     if (h->size <= 0)
