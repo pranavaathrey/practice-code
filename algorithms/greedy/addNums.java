@@ -6,7 +6,7 @@ class ListNode {
 }
 
 @SuppressWarnings("unused")
-class Solution {
+class addNums {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int partSum = l1.val + l2.val;
         int carry = partSum / 10; partSum %= 10;

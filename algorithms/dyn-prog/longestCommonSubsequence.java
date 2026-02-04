@@ -1,4 +1,4 @@
-class Solution {
+class lCSS {
     public int longestCommonSubsequence(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
@@ -15,4 +15,5 @@ class Solution {
         }
         return dp[m][n];
     }
+    //TODO: length
 }

@@ -1,4 +1,4 @@
-class Solution {
+class lCP {
     public String longestCommonPrefix(String[] strs) {
         if(strs == null || strs.length == 0) return "";
         int index = 0, len = strs.length;
