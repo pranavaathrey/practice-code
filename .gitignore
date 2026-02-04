@@ -29,3 +29,6 @@
 
 # IDE Config
 .vscode/
+
+# other
+algorithms/practice/party-tricks.c
