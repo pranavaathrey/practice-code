@@ -2,6 +2,8 @@
 #include <pthread.h>
 #include <stdlib.h>
 
+// TODO: cleanup
+
 // Shared data: Array of roll numbers
 int roll_numbers[] = {101, 102, 103, 104, 105, 106, 107, 108};
 int n = 8; // Size of array
