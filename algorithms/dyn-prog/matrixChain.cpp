@@ -23,7 +23,7 @@ ChainInfo optimalMatrixChain(vector<int> p) {
         result.cost[i][i] = 0;
     
     // L is the chain length; now we deal with chain lengths >1
-    for(int L = 2; L < n; L++) {
+    for(int L = 2; L < n; L++)
         for(int i = 1; i < n - L + 1; i++) {
             int j = i + L - 1; // end of matrix chain
             result.cost[i][j] = INT_MAX;
@@ -36,11 +36,10 @@ ChainInfo optimalMatrixChain(vector<int> p) {
                     result.cost[i][j] = cost;
                     result.kTable[i][j] = k;
                 }
-                // this greedily populates the kTable and the cost table
+                // this populates the kTable and the cost table
                 // with the best values for lowest cost. 
             }
         }
-    }
     return result;
 }
 

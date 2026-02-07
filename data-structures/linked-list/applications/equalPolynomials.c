@@ -69,7 +69,6 @@ int main() {
         scanf("%d %d", &co, &exp);
         insert(&poly2, co, exp);
     }
-    
     printf("Polynomial 1: ");
     printPolynomial(poly1);
     printf("Polynomial 2: ");
