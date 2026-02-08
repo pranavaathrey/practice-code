@@ -22,7 +22,7 @@ class LinkedList {
 
     void print() const {
         if(head == NULL) {
-            cout << "Empty List!" << endl;
+            cerr << "Empty List!" << endl;
             return;
         }
         Node *temp = head;
@@ -93,14 +93,15 @@ class LinkedList {
     }
     
     friend bool hasLoop(const LinkedList &list);
-    friend LinkedList createLoopingList();
+    friend void createLoopingList(LinkedList &list, int loopStart);
 };
 
 // tortoise-hare algorithm
 bool hasLoop(const LinkedList &list) {
-    if(!list.head || !list.head->nextNode)
+    if(!list.head || !list.head->nextNode) {
+        cerr << "Empty/Single-node list!" << endl;
         return false;
-
+    }
     Node *slow = list.head;
     Node *fast = list.head;
     while(fast != NULL && fast->nextNode != NULL) {
@@ -121,28 +122,33 @@ bool hasLoop(const LinkedList &list) {
     cout << "No loops found." << endl; 
     return false;
 }
-LinkedList createLoopingList() {
-    LinkedList list; 
+void createLoopingList(LinkedList &list, int loopStart) {
+    if(loopStart > list.size()) 
+        cerr << "Invalid loop start index!" << endl;
 
+    Node *temp = list.head;
+    for(int i = 0; i < loopStart - 1; i++)
+        temp = temp->nextNode;
+    Node *loopStartNode = temp; // i+1th node
+
+    while(temp->nextNode != NULL)
+        temp = temp->nextNode;
+    temp->nextNode = loopStartNode;
+}
+
+int main() {
+    // control (testing the algo on a normal list)
+    LinkedList list;
     vector<int> array = {9, 42, 2, 4, 2};
     for(int i = 0; i < array.size(); i++)
         list.insertAt(array[i], i); 
     
-    Node *temp = list.head;
-    for(int i = 0; i < LOOPSTART; i++)
-        temp = temp->nextNode;
-    Node *loopStart = temp; // i+1th node
-
-    while(temp->nextNode != NULL)
-        temp = temp->nextNode;
-    temp->nextNode = loopStart;
+    cout << "For a regular list: "; hasLoop(list);
+    cout << "The list: "; list.print();
     
-    return list;
-}
-
-int main() {
-    LinkedList list = createLoopingList();
-    hasLoop(list);
+    // testing the algo on a looping list
+    createLoopingList(list, LOOPSTART);
+    cout << "For a (known) looping list: "; hasLoop(list);
     // freeing a list with loops is gonna have a lot of double free's, so broken shit.
     // not gonna be fixed, but remember.
     return 0;
