@@ -4,11 +4,8 @@ struct powerCheck {
     static bool isPowerOfTwo(int n) {
         // we simply need to check if only one bit is set.
         // eg: checking 64: 0100 0000 & 0011 1111 = 0000 0000 
-        // (no overlapping of bits)
-
-        // skip negatives & zero. 
-        return (n > 0)
-            && (n & (n-1)) == 0;
+        // (no overlapping of bits). also skip negatives & zero. 
+        return (n > 0) && (n & (n-1)) == 0;
     }
     static bool isPowerOfThree(int n) {
         // can simply check if its divisible by the maximum power of 3 
