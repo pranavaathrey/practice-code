@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -10,7 +11,7 @@ class longestCommonSubsequence {
     vector<vector<char>> arrow;
 
     public:
-    longestCommonSubsequence(string str1, string str2) {
+    longestCommonSubsequence(string &str1, string &str2) {
         this->str1 = str1; 
         this->str2 = str2;
         m = str1.size(); 
@@ -37,21 +38,20 @@ class longestCommonSubsequence {
             }
         return length[m][n];
     }
-    void buildLCSstring(int i, int j, string &str) {
-        if(i < 0 || j < 0)
-            return;
-        
-        if(arrow[i][j] == '\\') {
-            buildLCSstring(i - 1, j - 1, str);
-            str += str1.at(i);
-        } else if(arrow[i][j] == '|') 
-            buildLCSstring(i - 1, j, str);
-        else
-            buildLCSstring(i, j - 1, str);
-    }
-    string getLCSstring() {
-        string LCSstr;
-        buildLCSstring(m - 1, n - 1, LCSstr);
+    string getString() {
+        string LCSstr = "";
+        int i = m - 1, j = n - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (arrow[i][j] == '\\') {
+                LCSstr += str1[i];
+                i--; j--; // go up-left
+            } else if (arrow[i][j] == '|') 
+                i--; // go up
+            else 
+                j--; // go left
+        }
+        reverse(LCSstr.begin(), LCSstr.end());
         return LCSstr;
     }
 };
@@ -64,6 +64,6 @@ int main() {
     longestCommonSubsequence LCS(str1, str2);
     cout << "Length of the longest common subsequence: "
          << LCS.size() << endl;
-    cout << "The LCS of input string: " << LCS.getLCSstring();
+    cout << "The LCS of input strings: " << LCS.getString();
     return 0;
 }
