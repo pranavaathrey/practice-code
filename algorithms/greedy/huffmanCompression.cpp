@@ -33,7 +33,7 @@ class HuffmanCoding {
         // build character-frequency map
         for(char character: text)
             charFreq[character]++;
-        // build priority queue
+        // build priority queue - min heap
         for(auto pair: charFreq) 
             pq.push(new TreeNode(pair.first, pair.second));
         
