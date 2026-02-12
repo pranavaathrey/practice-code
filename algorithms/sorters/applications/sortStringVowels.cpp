@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,15 +14,16 @@ class Solution {
     }
     public:
     string sortVowels(string s) {
-        int len = s.length();
-        for(int i = 0; i < len; i++) {
-            if(!isVowel(s[i])) 
-                continue;
-            for(int j = i; j < len; j++) {
-                if(isVowel(s[j]) && s[j] < s[i])
-                    swap(s[j], s[i]);
+        string vowels = "";
+        for(char ch: s)
+            if(isVowel(ch)) vowels += ch;
+        sort(vowels.begin(), vowels.end());
+
+        for(int i = 0, j = 0; i < s.length(); i++)
+            if(isVowel(s[i])) {
+                s[i] = vowels[j];
+                j++;
             }
-        }
         return s;
     }
 };
