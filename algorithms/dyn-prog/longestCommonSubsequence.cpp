@@ -44,14 +44,13 @@ class longestCommonSubsequence {
 
         while (i >= 0 && j >= 0) {
             if (arrow[i][j] == '\\') {
-                LCSstr += str1[i];
+                LCSstr = str1[i] + LCSstr;
                 i--; j--; // go up-left
             } else if (arrow[i][j] == '|') 
                 i--; // go up
             else 
                 j--; // go left
         }
-        reverse(LCSstr.begin(), LCSstr.end());
         return LCSstr;
     }
 };

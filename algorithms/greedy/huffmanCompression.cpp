@@ -15,7 +15,7 @@ class HuffmanCoding {
             character(ch), count(count), left(l), right(r) {}
     };
 
-    struct Compare { 
+    struct Compare { // this is a functor apparantly
         bool operator()(TreeNode* l, TreeNode* r) {
             // min-heap based on frequency
             return l->count > r->count;

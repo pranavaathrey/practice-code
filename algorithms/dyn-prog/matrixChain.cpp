@@ -4,8 +4,7 @@
 
 using namespace std;
 
-class ChainInfo {
-    public:
+struct ChainInfo {
     vector<vector<int>> cost, kTable;
 
     ChainInfo(int n): 
