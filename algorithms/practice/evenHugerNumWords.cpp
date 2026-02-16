@@ -8,7 +8,7 @@ using namespace boost::multiprecision;
 using namespace std;
 
 class NumberToWords {
-private:
+    private:
     static const vector<string> ONES;
     static const vector<string> TENS;
     
@@ -29,12 +29,11 @@ private:
             str += ONES[num / 100] + " Hundred";
             num %= 100;
             if (num > 0) str += " ";
-        }
-        
+        }        
         if (num > 0) {
-            if (num < 20) {
+            if (num < 20) 
                 str += ONES[num];
-            } else {
+            else {
                 str += TENS[num / 10];
                 if (num % 10 > 0) str += " " + ONES[num % 10];
             }
@@ -52,9 +51,8 @@ private:
         size_t illionIndex = chunkIndex - 1;
 
         // Use standard names for small indices (Million -> Nonillion)
-        if (illionIndex <= 9) {
+        if (illionIndex <= 9) 
             return STANDARD_ILLIONS[illionIndex - 1];
-        }
 
         // Generate names algorithmically for Decillion (10) and above
         // Format: [Unit Prefix][Ten Prefix]illion
@@ -65,8 +63,8 @@ private:
         string scale = LATIN_ONES[ones] + LATIN_TENS[tens] + "illion";
         
         // Capitalize first letter (optional, for consistency)
-        if (!scale.empty()) scale[0] = toupper(scale[0]);
-        
+        if (!scale.empty()) 
+            scale[0] = toupper(scale[0]);        
         return scale;
     }
 
@@ -88,15 +86,13 @@ private:
                 string scaleName = getScaleName(chunkIndex);
 
                 string part = chunkText;
-                if (!scaleName.empty()) {
+                if (!scaleName.empty()) 
                     part += " " + scaleName;
-                }
 
-                if (result.empty()) {
+                if (result.empty()) 
                     result = part;
-                } else {
+                else 
                     result = part + " " + result;
-                }
             }
             chunkIndex++;
         }
