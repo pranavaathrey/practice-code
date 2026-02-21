@@ -3,39 +3,50 @@
 
 using namespace std;
 
-struct rodCutInfo {
+class rodCutting {
+    vector<int> price4len;
+    int len;
     vector<int> memo;
     vector<int> pos;
-};
-// O(n^2) time complexity
-rodCutInfo maximizeRevenue(vector<int> &price4len) {
-    int len = price4len.size();
-    vector<int> memo(len + 1, 0);
-    vector<int> pos(len + 1, 0);
+    
+    public:
+    rodCutting(vector<int> price): price4len(price) {
+        len = price4len.size();
 
-    for(int i = 1; i <= len; i++) {
-        int maxRev = INT_MIN;
-
-        for(int j = 1; j <= i; j++) {
-            int rev = price4len[j - 1] + memo[i - j];
-            if(rev > maxRev) {
-                maxRev = rev;
-                pos[i] = j;
-            }
-        }
-        memo[i] = maxRev; 
+        memo = vector<int>(len + 1, 0);
+        pos = vector<int>(len + 1, 0);
+        maximizeRevenue();
     }
-    return {memo, pos};
-}
-void printCutting(rodCutInfo &info) {
-    int n = info.memo.size() - 1;
-    cout << "(Length " << n << ")\n";
+    friend ostream& operator<<(ostream& os, const rodCutting& info);
+    // O(n^2) time complexity
+    void maximizeRevenue() {
+        for(int i = 1; i <= len; i++) {
+            int maxRev = INT_MIN;
+
+            for(int j = 1; j <= i; j++) {
+                int rev = price4len[j - 1] + memo[i - j];
+                if(rev > maxRev) {
+                    maxRev = rev;
+                    pos[i] = j;
+                }
+            }
+            memo[i] = maxRev; 
+        }
+    }
+};
+// print algorithm
+ostream& operator<<(ostream& os, const rodCutting& info) {
+    int n = info.len;
+    os << "Maximum revenue from optimal cut: \t " 
+            << info.memo[n] << "\n";
+    os << "Optimal cutting for rod (length " << n << "): \t|";
     while(n > 0) {
-        cout << info.pos[n] << "|";
+        os << info.pos[n] << "|";
         n = n - info.pos[n];
     }
-    cout << endl;
+    return os;
 }
+
 // O(2^n) time complexity! for len > ~40 it will take forever
 int maximizeRevenue2(int len, vector<int> &price4len) {
     if(len <= 0) return 0;
@@ -50,13 +61,9 @@ int maximizeRevenue2(int len, vector<int> &price4len) {
 }
 
 int main() {
-    vector<int> price4len = {
+    rodCutting cutRod({
         1, 5, 8, 10, 13, 17, 18, 20
-    };
-    rodCutInfo info = maximizeRevenue(price4len);
-    cout << "Maximum revenue from optimal cut: \n" 
-         << info.memo[price4len.size()] << endl;
-    cout << "Optimal cutting for rod "; printCutting(info);
-    // cout << maximizeRevenue2(price4len.size(), price4len);
+    });
+    cout << cutRod << endl;
     return 0;
 }
