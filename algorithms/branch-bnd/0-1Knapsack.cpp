@@ -37,23 +37,23 @@ double calculateBound(const Node& u, int n, int capacity, const vector<Item>& it
     // if the weight already exceeds capacity, its an invalid path
     if (u.weight >= capacity) return 0; 
     
-    double bound_profit = u.profit;
+    double boundProfit = u.profit;
     int j = u.level;
-    int total_weight = u.weight;
+    int totalWeight = u.weight;
 
     // greedily take whole items as long as they fit
-    while (j < n && total_weight + items[j].weight <= capacity) {
-        total_weight += items[j].weight;
-        bound_profit += items[j].profit;
+    while (j < n && totalWeight + items[j].weight <= capacity) {
+        totalWeight += items[j].weight;
+        boundProfit += items[j].profit;
         j++;
     }
     // take a fractional part of the next item
     if (j < n) {
-        bound_profit += (capacity - total_weight) 
+        boundProfit += (capacity - totalWeight) 
                       * (static_cast<double>(items[j].profit) / items[j].weight);
     }
     // negate the bound for the min-heap
-    return -bound_profit;
+    return -boundProfit;
 }
 
 struct Info {
@@ -133,15 +133,26 @@ int main() {
     int M; cout << "Enter maximum capacity of knapsack: "; cin >> M;
 
     Info solution = O1Knapsack(items, M);
+    int solWeight = 0;
 
     cout << "\nPrice      |\t";
-    for(int i = 0; i < n; i++) cout << items[i].profit << "\t";
+    for(int i = 0; i < n; i++) 
+        cout << items[i].profit << "\t";
+
     cout << "\nWeight     |\t";
-    for(int i = 0; i < n; i++) cout << items[i].weight << "\t";
+    for(int i = 0; i < n; i++) 
+        cout << items[i].weight << "\t";
+
     cout << "\nInclusion  |\t";
-    for(int x : solution.bestPath) cout << (x? "Yes" : "No") << "\t";
-    cout << "\n\n";
+    for(int i = 0; i < n; i++) {
+        if(solution.bestPath[i]) {
+            cout << "Yes" << "\t";
+            solWeight += items[i].weight;
+        } else cout << "No" << "\t";        
+    } cout << "\n\n";
+
     cout << "Maximum Profit: " << solution.maxProfit << endl;
+    cout << "Solution Weight: " << solWeight << endl;
 
     return 0;
 }

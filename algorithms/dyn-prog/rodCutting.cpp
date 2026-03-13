@@ -62,7 +62,7 @@ int maximizeRevenue2(int len, vector<int> &price4len) {
 
 int main() {
     rodCutting cutRod({
-        1, 5, 8, 10, 13, 17, 18, 20
+        2, 3, 7, 8, 12, 13, 15, 19
     });
     cout << cutRod << endl;
     return 0;
