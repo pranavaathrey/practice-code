@@ -22,7 +22,6 @@ int rabinKarp(const string& text, const string& pattern, int Q) {
         pHash = (base * pHash + pattern[i]) % Q;
         tHash = (base * tHash + text[i]) % Q;
     }
-
     // slide the pattern over text
     for(int i = 0; i <= n - m; i++) {
         if(pHash == tHash) {
