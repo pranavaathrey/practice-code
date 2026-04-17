@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 struct powerCheck {
     static bool isPowerOfTwo(int n) {
         // we simply need to check if only one bit is set.
@@ -21,12 +23,12 @@ struct powerCheck {
 };
 
 int main() {
-    std::cout << "Enter a number to check: ";
-    int n; std::cin >> n;
-    std::cout << std::endl << "Power of 2: ";
-    std::cout << powerCheck::isPowerOfTwo(n);
-    std::cout << std::endl << "Power of 3: ";
-    std::cout << powerCheck::isPowerOfThree(n);
-    std::cout << std::endl << "Power of 4: ";
-    std::cout << powerCheck::isPowerOfFour(n);
+    cout << "Enter a number to check: ";
+    int n; cin >> n;
+    cout << endl << "Power of 2: ";
+    cout << powerCheck::isPowerOfTwo(n);
+    cout << endl << "Power of 3: ";
+    cout << powerCheck::isPowerOfThree(n);
+    cout << endl << "Power of 4: ";
+    cout << powerCheck::isPowerOfFour(n);
 }

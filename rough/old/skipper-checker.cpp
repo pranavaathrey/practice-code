@@ -7,8 +7,8 @@ using namespace boost;
 int main() {
     int att; int tot;
     cout << "Enter att/tot: ";
-    scanf("%d/%d", &att, &tot);
-    cout << "Current %: " << 100 * ((double)att / tot);
+    cin >> att >> tot;
+    cout << "Current %: " << (double)att / tot;
 
     while(true) {
         string choice;
@@ -17,14 +17,12 @@ int main() {
         
         if(choice == "skip" || choice == "0") {
             tot++;
-            cout << "Current %: " << 100 * ((double)att / tot);
+            cout << "Current %: " << (double)att / tot;
         } else if(choice == "go" || choice == "1") {
             att++; tot++;
-            cout << "Current %: " << 100 * ((double)att / tot);
-        } else if(choice == "q" || choice == "quit") {
-            cout << "Quitting..." << endl; break;
-        } else 
+            cout << "Current %: " << (double)att / tot;
+        } else {
             cout << "Invalid. Try again" << endl;
+        }
     }
-    return 0;
 }

@@ -78,7 +78,7 @@ int main() {
         };
     ios_base::sync_with_stdio(false);
     while(true) {
-        std::cout << "\033[2J\033[1;1H\n\n\n";
+        cout << "\033[2J\033[1;1H\n\n\n";
         printBoard(board);
         gameOfLife(board);
         this_thread::sleep_for(chrono::milliseconds(150));
