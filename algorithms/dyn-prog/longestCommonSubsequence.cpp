@@ -1,68 +1,58 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-class longestCommonSubsequence {
+class LCS {
     string str1, str2;
-    int m, n;
     vector<vector<int>> length;
     vector<vector<char>> arrow;
 
-    public:
-    longestCommonSubsequence(string &str1, string &str2) {
-        this->str1 = str1; 
-        this->str2 = str2;
-        m = str1.size(); 
-        n = str2.size();
-        length = vector<vector<int>>(m + 1, vector<int>(n + 1, 0));
-        arrow = vector<vector<char>>(m, vector<char>(n, 'O'));
-    }
-
-    int size() {
-        for(int i = 1; i <= m; i++) 
-            for(int j = 1; j <= n; j++) {
+    int getLength() {
+        for(int i = 1; i <= str1.length(); i++) 
+            for(int j = 1; j <= str2.length(); j++) {
                 if(str1[i - 1] == str2[j - 1]) {
                     length[i][j] = length[i - 1][j - 1] + 1;
-                    arrow[i - 1][j - 1] = '\\';
+                    arrow[i][j] = '\\';
                 } else {
                     if(length[i - 1][j] > length[i][j - 1]) {
                         length[i][j] = length[i - 1][j];
-                        arrow[i - 1][j - 1] = '|';
+                        arrow[i][j] = '|';
                     } else {
                         length[i][j] = length[i][j - 1];
-                        arrow[i - 1][j - 1] = '_';
+                        arrow[i][j] = '-';                        
                     }
                 }
             }
-        return length[m][n];
+        return length[str1.length()][str2.length()];
     }
-    string getString() {
-        string LCSstr = "";
-        int i = m - 1, j = n - 1;
+    string getLCS(int i, int j) {
+        if(i == 0 || j == 0)
+            return "";
 
-        while (i >= 0 && j >= 0) {
-            if (arrow[i][j] == '\\') {
-                LCSstr = str1[i] + LCSstr;
-                i--; j--; // go up-left
-            } else if (arrow[i][j] == '|') 
-                i--; // go up
-            else 
-                j--; // go left
-        }
-        return LCSstr;
+        if(arrow[i][j] == '\\') 
+            return getLCS(i - 1, j - 1) + str1[i - 1];
+        else    if(arrow[i][j] == '|')
+            return getLCS(i - 1, j);
+        else // if(arrow[i][j] == '-')
+            return getLCS(i, j - 1);
+    }
+
+    public:
+    string LCSstring;
+
+    LCS(const string &str1, const string &str2): str1(str1), str2(str2) {
+        length = vector<vector<int>>(str1.length() + 1, 
+                         vector<int>(str2.length() + 1, 0));
+        arrow = vector<vector<char>>(str1.length() + 1, 
+                        vector<char>(str2.length() + 1, '\0'));        
+        getLength(); 
+        LCSstring = getLCS(str1.length(), str2.length());
     }
 };
 
 int main() {
-    string str1, str2;
-    cout << "Enter a pair of strings: " << endl;
-    cin >> str1; cin >> str2;
-
-    longestCommonSubsequence LCS(str1, str2);
-    cout << "Length of the longest common subsequence: "
-         << LCS.size() << endl;
-    cout << "The LCS of input strings: " << LCS.getString();
-    return 0;
+    LCS lcs("stone", "lemon");
+    cout << lcs.LCSstring;
 }

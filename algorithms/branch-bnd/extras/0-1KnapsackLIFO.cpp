@@ -1,0 +1,101 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+
+using namespace std;
+
+struct Item {
+    int id;
+    double profit;
+    double weight;
+
+    Item(int id = 0, double profit = 0.0, double weight = 0.0):
+            id(id), profit(profit), weight(weight) {}
+};
+
+bool compareItems(const Item &a, const Item &b) {
+    return (a.profit / a.weight) > (b.profit / b.weight);
+}
+
+struct Node {
+    int level;
+    double profit;
+    double weight;
+    double bound;
+};
+
+double calculateBound(const Node &u, int n, double capacity, const vector<Item> &items) {
+    if (u.weight >= capacity) return 0;
+
+    double boundProfit = u.profit;
+    int j = u.level;
+    double totalWeight = u.weight;
+
+    while (j < n && totalWeight + items[j].weight <= capacity) {
+        totalWeight += items[j].weight;
+        boundProfit += items[j].profit;
+        j++;
+    }
+
+    if (j < n) {
+        boundProfit += (capacity - totalWeight)
+                     * (items[j].profit / items[j].weight);
+    }
+    return boundProfit;
+}
+
+double O1Knapsack(vector<Item> items, double capacity) {
+    int n = (int)items.size();
+    sort(items.begin(), items.end(), compareItems);
+
+    stack<Node> st;
+    Node root{0, 0, 0, 0};
+    root.bound = calculateBound(root, n, capacity, items);
+    st.push(root);
+
+    double maxProfit = 0;
+
+    while (!st.empty()) {
+        Node cur = st.top();
+        st.pop();
+
+        if (cur.level >= n || cur.bound <= maxProfit) continue;
+
+        Node left;
+        left.level = cur.level + 1;
+        left.profit = cur.profit + items[cur.level].profit;
+        left.weight = cur.weight + items[cur.level].weight;
+
+        if (left.weight <= capacity) {
+            if (left.profit > maxProfit) maxProfit = left.profit;
+            left.bound = calculateBound(left, n, capacity, items);
+            if (left.bound > maxProfit) st.push(left);
+        }
+
+        Node right;
+        right.level = cur.level + 1;
+        right.profit = cur.profit;
+        right.weight = cur.weight;
+        right.bound = calculateBound(right, n, capacity, items);
+
+        if (right.bound > maxProfit) st.push(right);
+    }
+
+    return maxProfit;
+}
+
+int main() {
+    int n;
+    double capacity;
+    if (!(cin >> n >> capacity) || n < 0) return 0;
+
+    vector<Item> items(n);
+    for (int i = 0; i < n; i++) {
+        cin >> items[i].weight >> items[i].profit;
+        items[i].id = i;
+    }
+
+    cout << O1Knapsack(items, capacity) << "\n";
+    return 0;
+}

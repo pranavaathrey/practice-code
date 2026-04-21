@@ -22,7 +22,6 @@ int partition(int list[], int low, int high) {
     swap(&list[i + 1], &list[high]);
     return i + 1;
 }
-
 void quickSort(int list[], int low, int high) {
     if(low < high) {
         int pi = partition(list, low, high);

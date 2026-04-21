@@ -22,7 +22,6 @@ static void countingSort(int *array, int n, int exp) {
     for (i = 0; i < n; i++)
         array[i] = output[i];
 }
-
 void radixSort(int *array, int n) {
     int max = array[0];
     for (int i = 1; i < n; i++)

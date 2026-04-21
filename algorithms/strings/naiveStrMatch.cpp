@@ -3,27 +3,27 @@
 
 using namespace std;
 
-void naiveMatch(const string& text, const string& pattern) {
+int naiveMatch(const string& text, const string& pattern) {
     int n = text.length();
     int m = pattern.length();
+    if(m == 0) return 0;
 
-    for (int i = 0; i <= n - m; i++) {
-        int j = 0;
-        while (j < m && text[i + j] == pattern[j])
-            j++;
-        if (j == m) // use a bool to say if not found
-            cout << "Pattern found at index " << i << endl;
+    for(int i = 0, j; i <= n - m; i++) {
+        for(j = 0; j < m; j++) 
+            if(text[i + j] != pattern[j]) 
+                break;
+        if(j == m) return i;
     }
+    return -1;
 }
 
 int main() {
-    cout << "Enter searchspace text: ";
-    string text; getline(cin, text);
-    cout << "Enter pattern to match: ";
-    string pattern; getline(cin, pattern);
-    
-    cout << "Searching... " << endl;
-    naiveMatch(text, pattern);
+    string text, pattern;
+    cout << "Enter text: ";
+    if(!getline(cin, text)) return 0;
+    cout << "Enter pattern: ";
+    if(!getline(cin, pattern)) return 0;
 
+    cout << naiveMatch(text, pattern) << "\n";
     return 0;
 }

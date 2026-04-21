@@ -25,7 +25,6 @@ void merge(int list[], int low, int mid, int high) {
     while(j < n2) 
         list[k++] = R[j++];
 }
-
 void mergeSort(int list[], int low, int high) {
     if(low < high) {
         int mid = low + (high - low) / 2;

@@ -3,15 +3,15 @@
 #include <vector>
 #include <cmath>
 
-#define BASE 256
+#define BASE 256 // for ASCII
 
 using namespace std;
 
 int rabinKarp(const string& text, const string& pattern, int Q) {
     int n = text.length(), m = pattern.length();    
     int base = BASE;
-    int h = 1;
-    // h = pow(base, m-1) % Q
+
+    int h = 1; // h = pow(base, m-1) % Q
     for(int i = 0; i < m - 1; i++)
         h = (h * base) % Q;
 
@@ -38,7 +38,7 @@ int rabinKarp(const string& text, const string& pattern, int Q) {
         if(i < n - m) {
             tHash = (base * (tHash - text[i] * h) 
                     + text[i + m]) % Q;
-            if (tHash < 0) tHash = (tHash + Q); // ensure positive result
+            if (tHash < 0) tHash += Q; // ensure +ve result
         }
     }
     return -1;
